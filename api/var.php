@@ -1,4 +1,5 @@
-​
+<?php
+
 $URL_API = "https://api.pix.basspago.com.br";
 $SENHA_CASH_IN = "d.WWxgdpH_r3nv2HCMJcYxH-K8xkJqPJJuAH7V2Tp2CNbugdDWc!nbvH7a2X";
 $CLIENT_ID = "00011193760124794000127";
@@ -26,13 +27,12 @@ $NOME_PRODUTO = "Produto Digital";
 $ID_PRODUTO   = "produto-001";
  
 $API_KEY = "a4f5d95862b7c5238cd957db82b3482e0b7de358fe65c50f5c6d08985f85dd3c";
-​
+
 // ── Upstash Redis (armazenamento de transações PIX — necessário na Vercel) ────
 // Crie uma conta grátis em https://upstash.com, crie um banco Redis
 // e cole aqui a REST URL e o REST TOKEN que aparecem no painel do banco.
 $UPSTASH_REDIS_REST_URL   = "https://secure-ape-166176.upstash.io";
 $UPSTASH_REDIS_REST_TOKEN = "gQAAAAAAAokgAAIgcDFmYmYyZjhmY2JlYzc0ZGFiOTU5OGRmZjUyZWRhZGVkZA";
-​
+
 ?>
-​
-​
+
