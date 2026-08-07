@@ -1,17 +1,17 @@
 <?php
-​
+
 require_once __DIR__ . '/var.php';
-​
+
 class Tracker
 {
     private array $fbPixels;
     private string $utmifyToken;
     private ?string $caBundle;
-​
+
     public function __construct()
     {
         global $FB_PIXELS, $FB_PIXEL_ID, $FB_ACCESS_TOKEN, $UTMIFY_API_TOKEN;
-​
+
         // Mantém compatibilidade com a configuração antiga de um único Pixel.
         $pixels = $FB_PIXELS ?? [];
         if (empty($pixels) && !empty($FB_PIXEL_ID) && !empty($FB_ACCESS_TOKEN)) {
@@ -22,12 +22,12 @@ class Tracker
                 ],
             ];
         }
-​
+
         $this->fbPixels = [];
         foreach ($pixels as $pixel) {
             $id = trim((string)($pixel['id'] ?? $pixel['pixel_id'] ?? ''));
             $token = trim((string)($pixel['access_token'] ?? $pixel['token'] ?? ''));
-​
+
             if ($id !== '' && $token !== '') {
                 $this->fbPixels[] = [
                     'id' => $id,
@@ -35,40 +35,40 @@ class Tracker
                 ];
             }
         }
-​
+
         $this->utmifyToken = trim($UTMIFY_API_TOKEN ?? '');
-​
+
         // cacert.pem Mozilla para APIs externas (Facebook, UTMify)
         $ca = realpath(__DIR__ . '/cacert.pem');
         $this->caBundle = $ca !== false ? str_replace('\\', '/', $ca) : null;
     }
-​
-​
+
+
     public function initiateCheckout(array $data): void
     {
         $this->sendFacebook('InitiateCheckout', $data);
         $this->sendUtmify('waiting_payment', $data);
     }
-​
+
     public function purchase(array $data): void
     {
         $this->sendFacebook('Purchase', $data);
         $this->sendUtmify('paid', $data);
     }
-​
+
     // -------------------------------------------------------------------------
     // Facebook Conversions API
     // -------------------------------------------------------------------------
-​
+
     private function sendFacebook(string $eventName, array $data): void
     {
         if (empty($this->fbPixels)) {
             error_log('[Tracker/FB] Pulado: nenhum Pixel configurado.');
             return;
         }
-​
+
         $userData = [];
-​
+
         // Identifiers — todos hasheados em SHA-256 conforme exigido pelo FB
         if (!empty($data['email'])) {
             $userData['em'] = [hash('sha256', strtolower(trim($data['email'])))];
@@ -85,14 +85,14 @@ class Tracker
         if (!empty($data['fbp'])) {
             $userData['fbp'] = $data['fbp'];
         }
-​
+
         // Garante ao menos um identificador mínimo
         if (empty($userData)) {
             $userData['client_ip_address'] = '0.0.0.0';
         }
-​
+
         $eventId = $data['eventId'] ?? ($data['txid'] ?? uniqid('ev_', true));
-​
+
         $payload = [
             'data' => [[
                 'event_name'       => $eventName,
@@ -109,7 +109,7 @@ class Tracker
                 ],
             ]],
         ];
-​
+
         // Envia o mesmo evento, com o mesmo event_id, para todos os Pixels.
         // Se um Pixel falhar, o loop continua para os demais.
         foreach ($this->fbPixels as $pixel) {
@@ -118,9 +118,9 @@ class Tracker
                 urlencode($pixel['id']),
                 urlencode($pixel['access_token'])
             );
-​
+
             [$httpCode, $resp, $curlErr] = $this->httpPost($url, $payload);
-​
+
             error_log(sprintf(
                 '[Tracker/FB] pixel=%s event=%s txid=%s http=%s resp=%s',
                 $pixel['id'],
@@ -131,30 +131,30 @@ class Tracker
             ));
         }
     }
-​
+
     // -------------------------------------------------------------------------
     // UTMify
     // -------------------------------------------------------------------------
-​
+
     private function sendUtmify(string $status, array $data): void
     {
         if (empty($this->utmifyToken)) {
             error_log('[Tracker/UTMify] Pulado: token vazio.');
             return;
         }
-​
+
         global $NOME_PRODUTO, $ID_PRODUTO;
-​
+
         $valor    = (float)($data['valor'] ?? 0);
         $centavos = (int)round($valor * 100);
         $agora    = date('Y-m-d H:i:s');
-​
+
         // Converte string vazia para null (UTMify rejeita "" em campos opcionais)
         $utm = function(string $key) use ($data): ?string {
             $v = $data[$key] ?? null;
             return ($v !== null && $v !== '') ? (string)$v : null;
         };
-​
+
         $body = [
             'orderId'       => $data['txid']      ?? uniqid('pix_'),
             'platform'      => 'custom',
@@ -192,13 +192,13 @@ class Tracker
                 'userCommissionInCents' => $centavos,
             ],
         ];
-​
+
         [$httpCode, $resp, $curlErr] = $this->httpPost(
             'https://api.utmify.com.br/api-credentials/orders',
             $body,
             ['x-api-token: ' . $this->utmifyToken]
         );
-​
+
         // Log vai para os Logs da Vercel (Functions → Logs), não mais para arquivo,
         // já que não há disco persistente no ambiente serverless.
         error_log(sprintf(
@@ -209,16 +209,16 @@ class Tracker
             $curlErr ?: $resp
         ));
     }
-​
+
     // -------------------------------------------------------------------------
     // HTTP helper
     // -------------------------------------------------------------------------
-​
+
     private function httpPost(string $url, array $body, array $extraHeaders = []): array
     {
         $ch      = curl_init($url);
         $headers = array_merge(['Content-Type: application/json', 'Accept: application/json'], $extraHeaders);
-​
+
         $opts = [
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT        => 8,
@@ -228,17 +228,17 @@ class Tracker
             CURLOPT_SSL_VERIFYPEER => true,
             CURLOPT_SSL_VERIFYHOST => 2,
         ];
-​
+
         if ($this->caBundle !== null) {
             $opts[CURLOPT_CAINFO] = $this->caBundle;
         }
-​
+
         curl_setopt_array($ch, $opts);
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         $curlErr  = curl_error($ch);
         curl_close($ch);
-​
+
         return [$httpCode, (string)($response ?: ''), $curlErr];
     }
 }
