@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contribuição PIX</title>
   <!-- Meta Pixel Base -->
-​
-​
-​
-​
+
+
+
+
   
 <script>
   !function(f,b,e,v,n,t,s)
@@ -22,23 +22,23 @@
   fbq('init', '1520472869160223');
   fbq('init', '1762981111690468');
  </script>
-​
-​
+
+
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-NMSZ9M72');</script>
 <!-- End Google Tag Manager -->
-​
-​
-​
-​
-​
-​
-​
-​
-​
+
+
+
+
+
+
+
+
+
   
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -149,7 +149,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <body>
 <div class="page">
     <div>
-        <img src="./images/556140afd04c0fa0.png" alt="Logo" style="display:block;margin:0 auto 1.5rem;max-width:200px;">
+        <img src="../images/556140afd04c0fa0.png" alt="Logo" style="display:block;margin:0 auto 1.5rem;max-width:200px;">
     </div>
   <div id="tela-selecao">
     <h1>Ajude Thais, a realizar o sonho de tornar-se médica e salvar vidas</h1>
@@ -213,7 +213,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   // Lê respostas JSON e transforma erros PHP em mensagens compreensíveis.
   async function lerJsonSeguro(resposta) {
     const texto = await resposta.text();
-​
+
     try {
       return JSON.parse(texto);
     } catch (erro) {
@@ -221,19 +221,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .replace(/<br\s*\/?\s*>/gi, '\n')
         .replace(/<[^>]*>/g, '')
         .trim();
-​
+
       throw new Error(
         'O servidor não retornou JSON (HTTP ' + resposta.status + '). ' +
         (mensagem || 'Verifique os Logs da Vercel.')
       );
     }
   }
-​
+
   const PLANOS = [30, 50, 70, 100, 150, 200, 500];
   const PRODUTOS = [
-    { id: 'p1', nome: 'CESTA BÁSICA',     emoji: '<img src="./images/4adfc1544ffa389f.jpg"  style="width:1em;height:1em;">', preco: 65.00 },
-    { id: 'p2', nome: 'AUXÍLIO GÁS', emoji: '<img src="./images/af65fdfc85a6bc7c.avif" style="width:1em;height:1em;">', preco: 29.90 },
-    { id: 'p3', nome: 'MEDICAMENTOS',     emoji: '<img src="./images/4adfc1544ffa389f.jpg" style="width:1em;height:1em;">', preco: 39.70 },
+    { id: 'p1', nome: 'CESTA BÁSICA',     emoji: '<img src="../images/4adfc1544ffa389f.jpg"  style="width:1em;height:1em;">', preco: 65.00 },
+    { id: 'p2', nome: 'AUXÍLIO GÁS', emoji: '<img src="../images/af65fdfc85a6bc7c.avif" style="width:1em;height:1em;">', preco: 29.90 },
+    { id: 'p3', nome: 'MEDICAMENTOS',     emoji: '<img src="../images/4adfc1544ffa389f.jpg" style="width:1em;height:1em;">', preco: 39.70 },
   ];
   let valorBase   = 20;
   let extraUpsell = 0;
@@ -349,7 +349,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   });
   let pollInterval  = null;
   let pagamentoOk   = false;
-​
+
   // Consulta o status do pagamento. Retorna true se já foi confirmado como pago.
   async function consultarStatusPagamento() {
     if (!txidAtual || pagamentoOk) return pagamentoOk;
@@ -364,8 +364,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
     return false;
   }
-​
-​
+
+
   // Verifica automaticamente a cada poucos segundos, sem precisar que o lead
   // clique em nada — cobre o caso comum de quem paga pelo app do banco e não
   // volta pra clicar em "Verificar pagamento".
@@ -373,7 +373,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     if (pollInterval) clearInterval(pollInterval);
     pollInterval = setInterval(consultarStatusPagamento, 5000);
   }
-​
+
   document.getElementById('btn-verificar').addEventListener('click', async () => {
     if (!txidAtual) return;
     const btn   = document.getElementById('btn-verificar');
