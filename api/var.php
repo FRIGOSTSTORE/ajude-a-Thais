@@ -1,4 +1,3 @@
-<?php
 ​
 $URL_API = "https://api.pix.basspago.com.br";
 $SENHA_CASH_IN = "d.WWxgdpH_r3nv2HCMJcYxH-K8xkJqPJJuAH7V2Tp2CNbugdDWc!nbvH7a2X";
@@ -35,4 +34,5 @@ $UPSTASH_REDIS_REST_URL   = "https://secure-ape-166176.upstash.io";
 $UPSTASH_REDIS_REST_TOKEN = "gQAAAAAAAokgAAIgcDFmYmYyZjhmY2JlYzc0ZGFiOTU5OGRmZjUyZWRhZGVkZA";
 ​
 ?>
+​
 ​
