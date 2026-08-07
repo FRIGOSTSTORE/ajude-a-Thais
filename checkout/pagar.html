@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contribuição PIX</title>
   <!-- Meta Pixel Base -->
-
-
-
-
+​
+​
+​
+​
   
 <script>
   !function(f,b,e,v,n,t,s)
@@ -20,25 +20,25 @@
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', '1520472869160223');
-  fbq('track', 'InitiateCheckout');
+  fbq('init', '1762981111690468');
  </script>
-
-
+​
+​
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-NMSZ9M72');</script>
 <!-- End Google Tag Manager -->
-
-
-
-
-
-
-
-
-
+​
+​
+​
+​
+​
+​
+​
+​
+​
   
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -210,6 +210,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
+  // Lê respostas JSON e transforma erros PHP em mensagens compreensíveis.
+  async function lerJsonSeguro(resposta) {
+    const texto = await resposta.text();
+​
+    try {
+      return JSON.parse(texto);
+    } catch (erro) {
+      const mensagem = texto
+        .replace(/<br\s*\/?\s*>/gi, '\n')
+        .replace(/<[^>]*>/g, '')
+        .trim();
+​
+      throw new Error(
+        'O servidor não retornou JSON (HTTP ' + resposta.status + '). ' +
+        (mensagem || 'Verifique os Logs da Vercel.')
+      );
+    }
+  }
+​
   const PLANOS = [30, 50, 70, 100, 150, 200, 500];
   const PRODUTOS = [
     { id: 'p1', nome: 'CESTA BÁSICA',     emoji: '<img src="./images/4adfc1544ffa389f.jpg"  style="width:1em;height:1em;">', preco: 65.00 },
@@ -301,7 +320,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           fbp:   getCookie('_fbp'),
         }),
       });
-      const data = await r.json();
+      const data = await lerJsonSeguro(r);
       if (!r.ok || data.erro) throw new Error(data.erro || 'Erro ' + r.status);
       txidAtual = data.txid;
       const codigo = data.pixCopiaECola || data._raw?.pixCopiaECola || '';
@@ -311,7 +330,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         new QRCode(document.getElementById('qrcode-img'), { text: codigo, width: 220, height: 220 });
       document.getElementById('overlay-bonus').classList.remove('ativo');
       mostrarTela('tela-qrcode');
-      fbInitiateCheckout(total);
+      fbInitiateCheckout(total, txidAtual);
       iniciarVerificacaoAutomatica();
     } catch (err) {
       alert('Erro: ' + err.message);
@@ -330,12 +349,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   });
   let pollInterval  = null;
   let pagamentoOk   = false;
-
+​
   // Consulta o status do pagamento. Retorna true se já foi confirmado como pago.
   async function consultarStatusPagamento() {
     if (!txidAtual || pagamentoOk) return pagamentoOk;
     const r    = await fetch('/api/verificar_pagamento.php?txid=' + encodeURIComponent(txidAtual));
-    const data = await r.json();
+    const data = await lerJsonSeguro(r);
     if (data.status === 'paid') {
       pagamentoOk = true;
       if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
@@ -345,8 +364,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
     return false;
   }
-
-
+​
+​
   // Verifica automaticamente a cada poucos segundos, sem precisar que o lead
   // clique em nada — cobre o caso comum de quem paga pelo app do banco e não
   // volta pra clicar em "Verificar pagamento".
@@ -354,7 +373,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     if (pollInterval) clearInterval(pollInterval);
     pollInterval = setInterval(consultarStatusPagamento, 5000);
   }
-
+​
   document.getElementById('btn-verificar').addEventListener('click', async () => {
     if (!txidAtual) return;
     const btn   = document.getElementById('btn-verificar');
@@ -391,12 +410,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     const m = document.cookie.match('(?:^|;)\\s*' + name + '=([^;]*)');
     return m ? decodeURIComponent(m[1]) : '';
   }
-function fbInitiateCheckout(valor) {
+function fbInitiateCheckout(valor, eventId) {
   if (typeof fbq === 'undefined') return;
   fbq('track', 'InitiateCheckout', {
     currency: 'BRL',
     value: valor,
     num_items: 1
+  }, {
+    eventID: eventId
   });
 }
 function fbPurchase(valor, txid) {
