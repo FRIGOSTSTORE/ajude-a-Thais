@@ -68,16 +68,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       padding: .35rem .8rem; border-radius: 20px; display: inline-block;
     }
     .upsell-extra { font-size: .88rem; color: #222; font-weight: 800; }
-    .produtos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+    .produtos-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .45rem; }
     .produto-card {
       text-align: center; cursor: pointer; border: 2px solid transparent;
-      border-radius: 14px; padding: .6rem .3rem; background: #fff;
+      border-radius: 14px; padding: .55rem .25rem; background: #fff;
       box-shadow: 0 1px 4px rgba(0,0,0,.04); transition: all .15s;
+      min-height: 118px; overflow: hidden; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start;
     }
     .produto-card.selecionado { border-color: #00a86b; background: #f0faf5; }
-    .produto-emoji { font-size: 2.2rem; display: block; margin-bottom: .3rem; line-height: 1; }
-    .produto-nome  { font-size: .62rem; font-weight: 800; color: #222; text-transform: uppercase; margin-bottom: .25rem; line-height: 1.25; }
-    .produto-preco { font-size: .75rem; color: #00a86b; font-weight: 800; }
+    .produto-emoji { display: flex; align-items: center; justify-content: center; height: 28px; margin-bottom: .25rem; line-height: 1; }
+    .produto-emoji img { width: 24px !important; height: 24px !important; object-fit: contain; }
+    .produto-nome  { font-size: .48rem; font-weight: 800; color: #222; text-transform: uppercase; margin-bottom: .12rem; line-height: 1.1; text-align: center; overflow-wrap: anywhere; }
+    .produto-descricao { font-size: .43rem; color: #222; line-height: 1.12; font-weight: 400; margin-bottom: .18rem; text-align: center; overflow-wrap: anywhere; max-width: 100%; }
+    .produto-preco { font-size: .58rem; color: #00a86b; font-weight: 800; text-align: center; margin-top: auto; }
     .total-area {
       background: #e0e0e0;
       border-radius: 20px;
@@ -144,7 +148,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .check-grande { font-size: 4.5rem; margin-bottom: 1rem; }
     #tela-obrigado h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: .5rem; }
     #tela-obrigado p  { color: #888; font-size: .9rem; }
-  </style>
+  
+/* Correção: valores dos botões sempre pretos no celular */
+.btn-valor,
+.btn-valor:visited,
+.btn-valor:focus,
+.btn-valor:active,
+.btn-valor.ativo {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+
+.btn-valor {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+</style>
 </head>
 <body>
 <div class="page">
@@ -152,8 +172,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <img src="./images/556140afd04c0fa0.png" alt="Logo" style="display:block;margin:0 auto 1.5rem;max-width:200px;">
     </div>
   <div id="tela-selecao">
-    <h1>Ajude Thais, a realizar o sonho de tornar-se médica e salvar vidas</h1>
+    <h1>Ajude o filho de doméstica e pedreiro, ele foi o 1º colocado em Medicina na USP. Vamos ajudar ele a chegar lá.</h1>
     <p class="subtitle">Qual valor você deseja doar?</p>
+
     <div class="grid-valores" id="grid-valores"></div>
     <div class="upsell">
       <div class="upsell-header">
@@ -231,9 +252,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   const PLANOS = [30, 50, 70, 100, 150, 200, 500];
   const PRODUTOS = [
-    { id: 'p1', nome: '5 Números da ssorte',     emoji: '<img src="./images/imgi_1_lucky_2_.png"  style="width:1em;height:1em;">', preco: 10.00 },
-    { id: 'p2', nome: '5 Corações', emoji: '<img src="./images/imgi_2_2x_SVG_CORAÇÃO_2_.png" style="width:1em;height:1em;">', preco: 4.99 },
-    { id: 'p3', nome: 'MEDICAMENTOS',     emoji: '<img src="./images/4adfc1544ffa389f.jpg" style="width:1em;height:1em;">', preco: 2.00 },
+    { id: 'p1', nome: '5 números da sorte', descricao: 'Você e quem criou a vaquinha concorrem ao sorteio de R$ 15.000,00 do Vakinha Premiada', emoji: '<img src="./images/imgi_1_lucky_2_.png"  style="width:1em;height:1em;">', preco: 10.00, precoLabel: 'Grátis' },
+    { id: 'p2', nome: '5 corações', descricao: 'Destacam essa vaquinha na plataforma', emoji: '<img src="./images/imgi_2_2x_SVG_CORAÇÃO_2_.png" style="width:1em;height:1em;">', preco: 4.99 },
+    { id: 'p3', nome: 'Mulheres Transformam 2026', descricao: 'Você ajuda mulheres que precisam de uma chance para recomeçar.', emoji: '<img src="./images/imgi_5_Mulheres_Transformam_2026.png" style="width:1em;height:1em;">', preco: 2.00 },
   ];
   let valorBase   = 20;
   let extraUpsell = 0;
@@ -259,7 +280,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     card.innerHTML     = `
       <span class="produto-emoji">${p.emoji}</span>
       <div class="produto-nome">${p.nome}</div>
-      <div class="produto-preco">R$ ${p.preco.toFixed(2).replace('.', ',')}</div>
+      <div class="produto-descricao">${p.descricao || ''}</div>
+      <div class="produto-preco">${p.precoLabel || ('R$ ' + p.preco.toFixed(2).replace('.', ','))}</div>
     `;
     card.addEventListener('click', () => {
       if (!document.getElementById('check-upsell').checked)
