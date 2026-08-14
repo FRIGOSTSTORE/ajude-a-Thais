@@ -208,6 +208,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <p>Sua contribuição foi confirmada💚!</p>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
   // Lê respostas JSON e transforma erros PHP em mensagens compreensíveis.
@@ -308,8 +309,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> Gerando...';
     const total = valorBase + extraUpsell;
-    try {s
-      const r = await fetch('api/gerar_pix.php', {
+    try {
+      const r = await fetch('/api/gerar_pix.php', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
