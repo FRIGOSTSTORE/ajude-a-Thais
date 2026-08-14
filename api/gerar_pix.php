@@ -33,9 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-require_once __DIR__ . 'api/pix_api.php';
-require_once __DIR__ . 'api/tracker.php';
-require_once __DIR__ . 'api/transaction_store.php';
+require_once __DIR__ . '/api/pix_api.php';
+require_once __DIR__ . '/api/tracker.php';
+require_once __DIR__ . '/api/transaction_store.php';
 
 global $CHAVE_PIX;
 
