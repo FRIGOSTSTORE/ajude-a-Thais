@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contribuição PIX</title>
   <!-- Meta Pixel Base -->
-​
-​
-​
-​
+
+
+
+
   
 <script>
   !function(f,b,e,v,n,t,s)
@@ -22,23 +22,23 @@
   fbq('init', '1520472869160223');
   fbq('init', '1762981111690468');
  </script>
-​
-​
+
+
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-NMSZ9M72');</script>
 <!-- End Google Tag Manager -->
-​
-​
-​
-​
-​
-​
-​
-​
-​
+
+
+
+
+
+
+
+
+
   
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -158,12 +158,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   color: #000 !important;
   -webkit-text-fill-color: #000 !important;
 }
-​
+
 .btn-valor {
   -webkit-appearance: none;
   appearance: none;
 }
-​
+
 </style>
 </head>
 <body>
@@ -174,7 +174,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <div id="tela-selecao">
     <h1>Ajude João a enxergar o mundo</h1>
     <p class="subtitle">Qual valor você deseja doar?</p>
-​
+
     <div class="grid-valores" id="grid-valores"></div>
     <div class="upsell">
       <div class="upsell-header">
@@ -251,10 +251,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
-  // Lê respostas JSON e transforma erros PHP em mensagens compreensíveis.
+  // Le respostas JSON e transforma erros PHP em mensagens compreensiveis.
   async function lerJsonSeguro(resposta) {
     const texto = await resposta.text();
-​
+
     try {
       return JSON.parse(texto);
     } catch (erro) {
@@ -262,22 +262,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .replace(/<br\s*\/?\s*>/gi, '\n')
         .replace(/<[^>]*>/g, '')
         .trim();
-​
+
       throw new Error(
-        'O servidor não retornou JSON (HTTP ' + resposta.status + '). ' +
+        'O servidor n\u00e3o retornou JSON (HTTP ' + resposta.status + '). ' +
         (mensagem || 'Verifique os Logs da Vercel.')
       );
     }
   }
-​
+
   const API_GERAR_PIX = '/api/gerar_pix.php';
   const API_VERIFICAR_PAGAMENTO = '/api/verificar_pagamento.php';
-​
+
   const PLANOS = [30, 50, 70, 100, 150, 200, 500];
   const PRODUTOS = [
-    { id: 'p1', nome: '5 números da sorte', descricao: 'Você e quem criou a vaquinha concorrem ao sorteio de R$ 15.000,00 do Vakinha Premiada', emoji: '<img src="./images/imgi_1_lucky_2_.png"  style="width:1em;height:1em;">', preco: 10.00, precoLabel: 'Grátis' },
-    { id: 'p2', nome: '5 corações', descricao: 'Destacam essa vaquinha na plataforma', emoji: '<img src="./images/imgi_2_2x_SVG_CORAÇÃO_2_.png" style="width:1em;height:1em;">', preco: 4.99 },
-    { id: 'p3', nome: 'Mulheres Transformam 2026', descricao: 'Você ajuda mulheres que precisam de uma chance para recomeçar.', emoji: '<img src="./images/imgi_5_Mulheres_Transformam_2026.png" style="width:1em;height:1em;">', preco: 2.00 },
+    { id: 'p1', nome: '5 n\u00fameros da sorte', descricao: 'Voc\u00ea e quem criou a vaquinha concorrem ao sorteio de R$ 15.000,00 do Vakinha Premiada', emoji: '<img src="./images/imgi_1_lucky_2_.png"  style="width:1em;height:1em;">', preco: 10.00, precoLabel: 'Gr\u00e1tis' },
+    { id: 'p2', nome: '5 cora\u00e7\u00f5es', descricao: 'Destacam essa vaquinha na plataforma', emoji: '<img src="./images/imgi_2_2x_SVG_CORA\u00c7\u00c3O_2_.png" style="width:1em;height:1em;">', preco: 4.99 },
+    { id: 'p3', nome: 'Mulheres Transformam 2026', descricao: 'Voc\u00ea ajuda mulheres que precisam de uma chance para recome\u00e7ar.', emoji: '<img src="./images/imgi_5_Mulheres_Transformam_2026.png" style="width:1em;height:1em;">', preco: 2.00 },
   ];
   let valorBase   = 20;
   let extraUpsell = 0;
@@ -297,8 +297,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     gridValores.appendChild(btn);
   });
   } catch (e) { console.error('valores', e); }
-​
-  // Deixa o primeiro valor selecionado e evita a tela ficar sem botões ativos.
+
+  // Deixa o primeiro valor selecionado e evita a tela ficar sem botoes ativos.
   const primeiroBotaoValor = document.querySelector('.btn-valor');
   if (primeiroBotaoValor) {
     primeiroBotaoValor.classList.add('ativo');
@@ -367,9 +367,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     const total = valorBase + extraUpsell;
     try {
       if (window.location.protocol === 'file:') {
-        throw new Error('Abra pelo site/servidor, não direto pelo arquivo. Use http://localhost ou Vercel.');
+        throw new Error('Abra pelo site/servidor, n\u00e3o direto pelo arquivo. Use http://localhost ou Vercel.');
       }
-​
+
       const r = await fetch(API_GERAR_PIX, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -385,7 +385,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       if (!r.ok || data.erro) throw new Error(data.erro || 'Erro ' + r.status);
       txidAtual = data.txid;
       const codigo = data.pixCopiaECola || data._raw?.pixCopiaECola || '';
-      document.getElementById('codigo-pix').textContent = codigo || '—';
+      document.getElementById('codigo-pix').textContent = codigo || '\u2014';
       document.getElementById('qrcode-img').innerHTML   = '';
       if (codigo)
         new QRCode(document.getElementById('qrcode-img'), { text: codigo, width: 220, height: 220 });
@@ -404,14 +404,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     const texto = document.getElementById('codigo-pix').textContent;
     navigator.clipboard.writeText(texto).then(() => {
       const b = document.getElementById('btn-copiar');
-      b.textContent = '✓ Copiado!';
-      setTimeout(() => { b.textContent = 'Copiar código'; }, 2000);
+      b.textContent = '\u2713 Copiado!';
+      setTimeout(() => { b.textContent = 'Copiar c\u00f3digo'; }, 2000);
     });
   });
   let pollInterval  = null;
   let pagamentoOk   = false;
-​
-  // Consulta o status do pagamento. Retorna true se já foi confirmado como pago.
+
+  // Consulta o status do pagamento. Retorna true se ja foi confirmado como pago.
   async function consultarStatusPagamento() {
     if (!txidAtual || pagamentoOk) return pagamentoOk;
     const r    = await fetch(API_VERIFICAR_PAGAMENTO + '?txid=' + encodeURIComponent(txidAtual));
@@ -425,16 +425,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
     return false;
   }
-​
-​
+
+
   // Verifica automaticamente a cada poucos segundos, sem precisar que o lead
-  // clique em nada — cobre o caso comum de quem paga pelo app do banco e não
+  // clique em nada - cobre o caso comum de quem paga pelo app do banco e nao
   // volta pra clicar em "Verificar pagamento".
   function iniciarVerificacaoAutomatica() {
     if (pollInterval) clearInterval(pollInterval);
     pollInterval = setInterval(consultarStatusPagamento, 5000);
   }
-​
+
   document.getElementById('btn-verificar').addEventListener('click', async () => {
     if (!txidAtual) return;
     const btn   = document.getElementById('btn-verificar');
@@ -443,7 +443,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     try {
       const ok = await consultarStatusPagamento();
       if (!ok) {
-        alert('Pagamento ainda não confirmado. Aguarde alguns segundos e tente de novo.');
+        alert('Pagamento ainda n\u00e3o confirmado. Aguarde alguns segundos e tente de novo.');
       }
     } catch {
       alert('Erro ao verificar. Tente novamente.');
