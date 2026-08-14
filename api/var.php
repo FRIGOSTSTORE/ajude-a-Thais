@@ -23,8 +23,8 @@ $FB_PIXELS = [
  
 // ── UTMify ────────────────────────────────────────────────────────────────────
 $UTMIFY_API_TOKEN = "grPOoJRIww4P97updndeR0Oc2x5ySV3UvClr";
-$NOME_PRODUTO = "02 Produto Digital";
-$ID_PRODUTO   = "produto-002";
+$NOME_PRODUTO = "07 Produto Digital";
+$ID_PRODUTO   = "produto-007";
  
 $API_KEY = "a4f5d95862b7c5238cd957db82b3482e0b7de358fe65c50f5c6d08985f85dd3c";
 
@@ -33,6 +33,3 @@ $API_KEY = "a4f5d95862b7c5238cd957db82b3482e0b7de358fe65c50f5c6d08985f85dd3c";
 // e cole aqui a REST URL e o REST TOKEN que aparecem no painel do banco.
 $UPSTASH_REDIS_REST_URL   = "https://secure-ape-166176.upstash.io";
 $UPSTASH_REDIS_REST_TOKEN = "gQAAAAAAAokgAAIgcDFmYmYyZjhmY2JlYzc0ZGFiOTU5OGRmZjUyZWRhZGVkZA";
-
-?>
-
