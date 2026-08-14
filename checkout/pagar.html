@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -250,6 +250,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     }
   }
 ​
+  const API_GERAR_PIX = '../api/gerar_pix.php';
+  const API_VERIFICAR_PAGAMENTO = '../api/verificar_pagamento.php';
+​
   const PLANOS = [30, 50, 70, 100, 150, 200, 500];
   const PRODUTOS = [
     { id: 'p1', nome: '5 números da sorte', descricao: 'Você e quem criou a vaquinha concorrem ao sorteio de R$ 15.000,00 do Vakinha Premiada', emoji: '<img src="./images/imgi_1_lucky_2_.png"  style="width:1em;height:1em;">', preco: 10.00, precoLabel: 'Grátis' },
@@ -272,6 +275,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     });
     gridValores.appendChild(btn);
   });
+​
+  // Deixa o primeiro valor selecionado e evita a tela ficar sem botões ativos.
+  const primeiroBotaoValor = document.querySelector('.btn-valor');
+  if (primeiroBotaoValor) {
+    primeiroBotaoValor.classList.add('ativo');
+    valorBase = PLANOS[0];
+    atualizarTotal();
+  }
   const produtosGrid = document.getElementById('produtos-grid');
   PRODUTOS.forEach(p => {
     const card = document.createElement('div');
@@ -331,7 +342,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     btn.innerHTML = '<span class="spinner"></span> Gerando...';
     const total = valorBase + extraUpsell;
     try {
-      const r = await fetch('./gerar_pix.php', {
+      if (window.location.protocol === 'file:') {
+        throw new Error('Abra pelo site/servidor, não direto pelo arquivo. Use http://localhost ou Vercel.');
+      }
+​
+      const r = await fetch(API_GERAR_PIX, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -375,7 +390,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   // Consulta o status do pagamento. Retorna true se já foi confirmado como pago.
   async function consultarStatusPagamento() {
     if (!txidAtual || pagamentoOk) return pagamentoOk;
-    const r    = await fetch('./verificar_pagamento.php?txid=' + encodeURIComponent(txidAtual));
+    const r    = await fetch(API_VERIFICAR_PAGAMENTO + '?txid=' + encodeURIComponent(txidAtual));
     const data = await lerJsonSeguro(r);
     if (data.status === 'paid') {
       pagamentoOk = true;
