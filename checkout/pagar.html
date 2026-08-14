@@ -242,6 +242,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="codigo-pix" id="codigo-pix">—</div>
     <button class="btn-copiar"    id="btn-copiar">Copiar código</button>
     <button class="btn-verificar" id="btn-verificar">Verificar pagamento</button>
+      <div id="status-verificacao" style="margin-top:10px;font-size:13px;color:#777;text-align:center;word-break:break-word"></div>
   </div>
   <div id="tela-obrigado">
     <span class="check-grande">✅</span>
@@ -275,9 +276,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   const PLANOS = [30, 50, 70, 100, 150, 200, 500];
   const PRODUTOS = [
-    { id: 'p1', nome: '5 números da sorte', descricao: 'Você e quem criou a vaquinha concorrem ao sorteio de R$ 15.000,00 do Vakinha Premiada', emoji: '<img src="./images/imgi_1_lucky_2_.png"  style="width:1em;height:1em;">', preco: 10.00, precoLabel: 'Grátis' },
-    { id: 'p2', nome: '5 corações', descricao: 'Destacam essa vaquinha na plataforma', emoji: '<img src="./images/imgi_2_2x_SVG_CORAÇÃO_2_.png" style="width:1em;height:1em;">', preco: 4.99 },
-    { id: 'p3', nome: 'Mulheres Transformam 2026', descricao: 'Você ajuda mulheres que precisam de uma chance para recomeçar.', emoji: '<img src="./images/imgi_5_Mulheres_Transformam_2026.png" style="width:1em;height:1em;">', preco: 2.00 },
+    { id: 'p1', nome: '5 n\u00fameros da sorte', descricao: 'Voc\u00ea e quem criou a vaquinha concorrem ao sorteio de R$ 15.000,00 do Vakinha Premiada', emoji: '<img src="./images/imgi_1_lucky_2_.png"  style="width:1em;height:1em;">', preco: 10.00, precoLabel: 'Gr\u00e1tis' },
+    { id: 'p2', nome: '5 cora\u00e7\u00f5es', descricao: 'Destacam essa vaquinha na plataforma', emoji: '<img src="./images/imgi_2_2x_SVG_CORA\u00c7\u00c3O_2_.png" style="width:1em;height:1em;">', preco: 4.99 },
+    { id: 'p3', nome: 'Mulheres Transformam 2026', descricao: 'Voc\u00ea ajuda mulheres que precisam de uma chance para recome\u00e7ar.', emoji: '<img src="./images/imgi_5_Mulheres_Transformam_2026.png" style="width:1em;height:1em;">', preco: 2.00 },
   ];
   let valorBase   = 20;
   let extraUpsell = 0;
@@ -412,10 +413,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   let pagamentoOk   = false;
 
   // Consulta o status do pagamento. Retorna true se ja foi confirmado como pago.
+  function mostrarStatusVerificacao(texto, erro) {
+    const el = document.getElementById('status-verificacao');
+    if (!el) return;
+    el.textContent = texto;
+    el.style.color = erro ? '#c0392b' : '#777';
+  }
+
   async function consultarStatusPagamento() {
     if (!txidAtual || pagamentoOk) return pagamentoOk;
-    const r    = await fetch(API_VERIFICAR_PAGAMENTO + '?txid=' + encodeURIComponent(txidAtual));
+    const r    = await fetch(API_VERIFICAR_PAGAMENTO + '?txid=' + encodeURIComponent(txidAtual) + '&_=' + Date.now(), { cache: 'no-store' });
     const data = await lerJsonSeguro(r);
+    if (data.erro) {
+      throw new Error(data.erro + (data.arquivo ? ' [' + data.arquivo + ']' : ''));
+    }
     if (data.status === 'paid') {
       pagamentoOk = true;
       if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
@@ -432,7 +443,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   // volta pra clicar em "Verificar pagamento".
   function iniciarVerificacaoAutomatica() {
     if (pollInterval) clearInterval(pollInterval);
-    pollInterval = setInterval(consultarStatusPagamento, 5000);
+
+    let falhas = 0;
+    let ciclos = 0;
+
+    const tentar = async () => {
+      ciclos++;
+      try {
+        const ok = await consultarStatusPagamento();
+        falhas = 0;
+        if (!ok) {
+          mostrarStatusVerificacao('Aguardando pagamento... verificacao automatica ativa (' + ciclos + ').', false);
+        }
+      } catch (e) {
+        falhas++;
+        mostrarStatusVerificacao('Falha ao verificar (' + falhas + '): ' + (e && e.message ? e.message : e), true);
+        console.error('[verificar]', e);
+      }
+    };
+
+    tentar();
+    pollInterval = setInterval(tentar, 5000);
   }
 
   document.getElementById('btn-verificar').addEventListener('click', async () => {
@@ -445,8 +476,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       if (!ok) {
         alert('Pagamento ainda n\u00e3o confirmado. Aguarde alguns segundos e tente de novo.');
       }
-    } catch {
-      alert('Erro ao verificar. Tente novamente.');
+    } catch (e) {
+      const msg = (e && e.message) ? e.message : String(e);
+      mostrarStatusVerificacao('Falha ao verificar: ' + msg, true);
+      alert('Erro ao verificar: ' + msg);
     } finally {
       btn.disabled    = false;
       btn.textContent = 'Verificar pagamento';
