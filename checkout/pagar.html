@@ -308,8 +308,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> Gerando...';
     const total = valorBase + extraUpsell;
-    try {
-      const r = await fetch('/api/gerar_pix.php', {
+    try {s
+      const r = await fetch('api/gerar_pix.php', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
