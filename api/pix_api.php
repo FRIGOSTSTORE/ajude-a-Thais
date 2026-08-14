@@ -259,8 +259,8 @@ class PixApi
             CURLOPT_TIMEOUT        => 30,
             CURLOPT_HTTPHEADER     => $headers,
             CURLOPT_CUSTOMREQUEST  => $method,
-CURLOPT_SSL_VERIFYPEER => false,
-CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => 0,
             // mTLS
             CURLOPT_SSLCERT        => $this->certPath,
             CURLOPT_SSLKEY         => $this->keyPath,
