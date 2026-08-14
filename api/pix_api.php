@@ -28,7 +28,7 @@ class PixApi
     }
 
     // -------------------------------------------------------------------------
-    // Autenticação OAuth2 client_credentials com mTLS
+    // Autenticacao OAuth2 client_credentials com mTLS
     // -------------------------------------------------------------------------
 
     private function getToken(): string
@@ -54,30 +54,30 @@ class PixApi
     }
 
     // -------------------------------------------------------------------------
-    // Cobranças imediatas (/cob)
+    // Cobrancas imediatas (/cob)
     // -------------------------------------------------------------------------
 
-    /** Cria cobrança imediata com txid definido pelo PSP (POST /cob) */
+    /** Cria cobranca imediata com txid definido pelo PSP (POST /cob) */
     public function criarCobranca(array $dados): array
     {
         return $this->request('POST', '/cob', $dados);
     }
 
-    /** Cria cobrança imediata com txid fornecido (PUT /cob/{txid}) */
+    /** Cria cobranca imediata com txid fornecido (PUT /cob/{txid}) */
     public function criarCobrancaComTxid(string $txid, array $dados): array
     {
         $this->validarTxid($txid);
         return $this->request('PUT', "/cob/{$txid}", $dados);
     }
 
-    /** Atualiza cobrança imediata (PATCH /cob/{txid}) */
+    /** Atualiza cobranca imediata (PATCH /cob/{txid}) */
     public function atualizarCobranca(string $txid, array $dados): array
     {
         $this->validarTxid($txid);
         return $this->request('PATCH', "/cob/{$txid}", $dados);
     }
 
-    /** Consulta cobrança imediata (GET /cob/{txid}) */
+    /** Consulta cobranca imediata (GET /cob/{txid}) */
     public function consultarCobranca(string $txid, ?int $revisao = null): array
     {
         $this->validarTxid($txid);
@@ -85,7 +85,7 @@ class PixApi
         return $this->request('GET', "/cob/{$txid}{$query}");
     }
 
-    /** Lista cobranças imediatas (GET /cob) */
+    /** Lista cobrancas imediatas (GET /cob) */
     public function listarCobrancas(array $params): array
     {
         $this->validarParamsData($params);
@@ -93,24 +93,24 @@ class PixApi
     }
 
     // -------------------------------------------------------------------------
-    // Cobranças com vencimento (/cobv)
+    // Cobrancas com vencimento (/cobv)
     // -------------------------------------------------------------------------
 
-    /** Cria cobrança com vencimento (PUT /cobv/{txid}) */
+    /** Cria cobranca com vencimento (PUT /cobv/{txid}) */
     public function criarCobrancaVencimento(string $txid, array $dados): array
     {
         $this->validarTxid($txid);
         return $this->request('PUT', "/cobv/{$txid}", $dados);
     }
 
-    /** Atualiza cobrança com vencimento (PATCH /cobv/{txid}) */
+    /** Atualiza cobranca com vencimento (PATCH /cobv/{txid}) */
     public function atualizarCobrancaVencimento(string $txid, array $dados): array
     {
         $this->validarTxid($txid);
         return $this->request('PATCH', "/cobv/{$txid}", $dados);
     }
 
-    /** Consulta cobrança com vencimento (GET /cobv/{txid}) */
+    /** Consulta cobranca com vencimento (GET /cobv/{txid}) */
     public function consultarCobrancaVencimento(string $txid, ?int $revisao = null): array
     {
         $this->validarTxid($txid);
@@ -118,7 +118,7 @@ class PixApi
         return $this->request('GET', "/cobv/{$txid}{$query}");
     }
 
-    /** Lista cobranças com vencimento (GET /cobv) */
+    /** Lista cobrancas com vencimento (GET /cobv) */
     public function listarCobrancasVencimento(array $params): array
     {
         $this->validarParamsData($params);
@@ -144,10 +144,10 @@ class PixApi
     }
 
     // -------------------------------------------------------------------------
-    // Devoluções (/pix/{e2eid}/devolucao/{id})
+    // Devolucoes (/pix/{e2eid}/devolucao/{id})
     // -------------------------------------------------------------------------
 
-    /** Solicita devolução (PUT /pix/{e2eid}/devolucao/{id}) */
+    /** Solicita devolucao (PUT /pix/{e2eid}/devolucao/{id}) */
     public function solicitarDevolucao(string $e2eid, string $idDevolucao, array $dados): array
     {
         $this->validarE2eid($e2eid);
@@ -155,7 +155,7 @@ class PixApi
         return $this->request('PUT', "/pix/{$e2eid}/devolucao/{$idDevolucao}", $dados);
     }
 
-    /** Consulta devolução (GET /pix/{e2eid}/devolucao/{id}) */
+    /** Consulta devolucao (GET /pix/{e2eid}/devolucao/{id}) */
     public function consultarDevolucao(string $e2eid, string $idDevolucao): array
     {
         $this->validarE2eid($e2eid);
@@ -171,7 +171,7 @@ class PixApi
     public function configurarWebhook(string $chave, string $webhookUrl): array
     {
         if (!filter_var($webhookUrl, FILTER_VALIDATE_URL)) {
-            throw new InvalidArgumentException('URL do webhook inválida.');
+            throw new InvalidArgumentException('URL do webhook invalida.');
         }
         $chave = urlencode($chave);
         return $this->request('PUT', "/webhook/{$chave}", ['webhookUrl' => $webhookUrl]);
@@ -211,14 +211,14 @@ class PixApi
     }
 
     // -------------------------------------------------------------------------
-    // Núcleo HTTP com mTLS
+    // Nucleo HTTP com mTLS
     // -------------------------------------------------------------------------
 
     /**
      * @param string      $method   GET|POST|PUT|PATCH|DELETE
      * @param string      $path     Path relativo (ex: /cob)
-     * @param array|null  $body     Dados do corpo da requisição
-     * @param string      $bodyType 'json' (padrão) ou 'form'
+     * @param array|null  $body     Dados do corpo da requisicao
+     * @param string      $bodyType 'json' (padrao) ou 'form'
      * @param bool        $auth     Se deve enviar Bearer token
      * @return array
      */
@@ -246,7 +246,7 @@ class PixApi
             $headers[] = 'Content-Type: application/x-www-form-urlencoded';
         }
 
-        // CA root da ONZ Software (extraída do PFX — necessária pois o servidor usa CA privada)
+        // CA root da ONZ Software (extraida do PFX - necessaria pois o servidor usa CA privada)
         $caBundle = realpath($this->caPath);
         if ($caBundle !== false) {
             $caBundle = str_replace('\\', '/', $caBundle);
@@ -298,27 +298,27 @@ class PixApi
     }
 
     // -------------------------------------------------------------------------
-    // Validações de entrada
+    // Validacoes de entrada
     // -------------------------------------------------------------------------
 
     private function validarTxid(string $txid): void
     {
         if (!preg_match('/^[a-zA-Z0-9]{26,35}$/', $txid)) {
-            throw new InvalidArgumentException('txid inválido: deve conter 26 a 35 caracteres alfanuméricos.');
+            throw new InvalidArgumentException('txid invalido: deve conter 26 a 35 caracteres alfanumericos.');
         }
     }
 
     private function validarE2eid(string $e2eid): void
     {
         if (!preg_match('/^[a-zA-Z0-9]{32}$/', $e2eid)) {
-            throw new InvalidArgumentException('e2eid inválido: deve conter exatamente 32 caracteres alfanuméricos.');
+            throw new InvalidArgumentException('e2eid invalido: deve conter exatamente 32 caracteres alfanumericos.');
         }
     }
 
     private function sanitizarId(string $id): string
     {
         if (!preg_match('/^[a-zA-Z0-9]{1,35}$/', $id)) {
-            throw new InvalidArgumentException('Id inválido.');
+            throw new InvalidArgumentException('Id invalido.');
         }
         return $id;
     }
@@ -327,17 +327,17 @@ class PixApi
     {
         foreach (['inicio', 'fim'] as $campo) {
             if (isset($params[$campo]) && !$this->isISO8601($params[$campo])) {
-                throw new InvalidArgumentException("Parâmetro '{$campo}' deve ser uma data/hora no formato RFC 3339.");
+                throw new InvalidArgumentException("Parametro '{$campo}' deve ser uma data/hora no formato RFC 3339.");
             }
         }
         if (isset($params['cpf']) && !preg_match('/^\d{11}$/', $params['cpf'])) {
-            throw new InvalidArgumentException('CPF inválido.');
+            throw new InvalidArgumentException('CPF invalido.');
         }
         if (isset($params['cnpj']) && !preg_match('/^\d{14}$/', $params['cnpj'])) {
-            throw new InvalidArgumentException('CNPJ inválido.');
+            throw new InvalidArgumentException('CNPJ invalido.');
         }
         if (isset($params['cpf'], $params['cnpj'])) {
-            throw new InvalidArgumentException('Não é possível filtrar por CPF e CNPJ simultaneamente.');
+            throw new InvalidArgumentException('Nao e possivel filtrar por CPF e CNPJ simultaneamente.');
         }
     }
 
