@@ -196,4 +196,3 @@ try {
         'arquivo' => basename($e->getFile()) . ':' . $e->getLine(),
     ], JSON_UNESCAPED_UNICODE);
 }
-​
