@@ -191,9 +191,29 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="total-valor-box">
         <input type="text" class="total-input" id="total-input" value="20,00">
       </div>
-      <button class="btn-comprar" id="btn-comprar">CONTRIBUIR</button>
+      <button class="btn-comprar" id="btn-comprar" type="button" onclick="abrirModalBonus()">CONTRIBUIR</button>
     </div>
   </div>
+<script>
+  // Bloco independente: garante que o botao CONTRIBUIR sempre abra o modal,
+  // mesmo que algum outro script da pagina falhe.
+  function abrirModalBonus() {
+    var ov = document.getElementById('overlay-bonus');
+    if (ov) ov.classList.add('ativo');
+  }
+  function fecharModalBonus() {
+    var ov = document.getElementById('overlay-bonus');
+    if (ov) ov.classList.remove('ativo');
+  }
+  window.addEventListener('error', function (e) {
+    var box = document.getElementById('js-erro');
+    if (box) {
+      box.style.display = 'block';
+      box.textContent = 'JS: ' + (e.message || 'erro') + ' (' + (e.filename || '') + ':' + (e.lineno || 0) + ')';
+    }
+  });
+</script>
+<div id="js-erro" style="display:none;background:#ffe6e6;color:#a00;font:12px/1.4 monospace;padding:8px;margin:8px;border-radius:6px;white-space:pre-wrap"></div>
   <div class="overlay" id="overlay-bonus">
     <div class="modal">
       <h2>Identificação 💚</h2>
@@ -210,8 +230,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <input type="email" class="campo-modal" id="campo-email" placeholder="E-mail">
         <input type="text"  class="campo-modal" id="campo-cpf"   placeholder="CPF">
       </div>
-      <button class="btn-modal-pix" id="btn-gerar-pix">Gerar PIX agora</button>
-      <button class="btn-cancelar"  id="btn-cancelar">Cancelar</button>
+      <button class="btn-modal-pix" id="btn-gerar-pix" type="button">Gerar PIX agora</button>
+      <button class="btn-cancelar"  id="btn-cancelar" type="button" onclick="fecharModalBonus()">Cancelar</button>
     </div>
   </div>
   <div id="tela-qrcode">
@@ -263,6 +283,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   let extraUpsell = 0;
   let txidAtual   = null;
   const gridValores = document.getElementById('grid-valores');
+  try {
   PLANOS.forEach((v, i) => {
     const btn = document.createElement('button');
     btn.className    = 'btn-valor' + (i === PLANOS.length - 1 ? ' full' : '');
@@ -275,6 +296,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     });
     gridValores.appendChild(btn);
   });
+  } catch (e) { console.error('valores', e); }
 ​
   // Deixa o primeiro valor selecionado e evita a tela ficar sem botões ativos.
   const primeiroBotaoValor = document.querySelector('.btn-valor');
@@ -284,6 +306,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     atualizarTotal();
   }
   const produtosGrid = document.getElementById('produtos-grid');
+  try {
   PRODUTOS.forEach(p => {
     const card = document.createElement('div');
     card.className     = 'produto-card';
@@ -302,6 +325,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     });
     produtosGrid.appendChild(card);
   });
+  } catch (e) { console.error('produtos', e); }
   document.getElementById('check-upsell').addEventListener('change', e => {
     if (!e.target.checked) {
       document.querySelectorAll('.produto-card.selecionado').forEach(c => c.classList.remove('selecionado'));
