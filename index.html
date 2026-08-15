@@ -919,7 +919,7 @@ Com todo o meu carinho e gratidão, Thais</p>
         </div>
       </div>
 
-<button type="button" class="btn-donate" onclick="window.location.href='/checkout/pagar.html' + window.location.search">
+<button type="button" class="btn-donate" onclick="irParaCheckoutComUTM()">
     Quero Ajudar
 </button>
       <button class="btn-share" onclick="shareVaquinha()">Compartilhar</button>
@@ -952,12 +952,43 @@ Com todo o meu carinho e gratidão, Thais</p>
     </div>
   </div>
   <div class="mb-btns">
-    <button type="button" class="btn-donate" onclick="window.location.href='/checkout/pagar.html' + window.location.search">
+    <button type="button" class="btn-donate" onclick="irParaCheckoutComUTM()">
     Quero Ajudar
 </button>
     <button class="btn-share" onclick="shareVaquinha()">Compartilhar</button>
   </div>
 </div>
+
+<script>
+  // Mantém os parâmetros de campanha ao sair da landing page para o checkout.
+  // Sem isso, a UTMify recebe a venda paga, mas não consegue associar à campanha.
+  function irParaCheckoutComUTM() {
+    const destino = new URL('/checkout/pagar.html', window.location.origin);
+    const params = new URLSearchParams(window.location.search);
+    const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck','fbclid','gclid','ttclid'];
+
+    keys.forEach(function (key) {
+      const value = params.get(key);
+      if (value) {
+        destino.searchParams.set(key, value);
+      }
+    });
+
+    // Fallback: se algum clique/intermediário remover a querystring, ainda salva no navegador.
+    const utms = {};
+    keys.forEach(function (key) {
+      const value = params.get(key);
+      if (value) utms[key] = value;
+    });
+    if (Object.keys(utms).length) {
+      sessionStorage.setItem('_utms', JSON.stringify(utms));
+      localStorage.setItem('_utms', JSON.stringify(utms));
+    }
+
+    window.location.href = destino.toString();
+  }
+</script>
+
 <script>
   window.pixelId = "6a6626392eb32395825e2935";
   var a = document.createElement("script");
