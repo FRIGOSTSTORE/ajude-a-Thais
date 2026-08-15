@@ -493,11 +493,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   function getUTMs() {
     const p    = new URLSearchParams(window.location.search);
-    const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck'];
+    const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck','fbclid','gclid','ttclid'];
     const out  = {};
+
     keys.forEach(k => { if (p.get(k)) out[k] = p.get(k); });
-    if (Object.keys(out).length) sessionStorage.setItem('_utms', JSON.stringify(out));
-    const saved = sessionStorage.getItem('_utms');
+
+    if (Object.keys(out).length) {
+      sessionStorage.setItem('_utms', JSON.stringify(out));
+      localStorage.setItem('_utms', JSON.stringify(out));
+      return out;
+    }
+
+    // Fallback para manter a campanha mesmo se a URL do checkout chegar sem querystring.
+    const saved = sessionStorage.getItem('_utms') || localStorage.getItem('_utms');
     return saved ? JSON.parse(saved) : out;
   }
   function getCookie(name) {
