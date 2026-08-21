@@ -21,7 +21,6 @@
   'https://connect.facebook.net/en_US/fbevents.js');
   fbq('init', '1520472869160223');
   fbq('init', '1762981111690468');
-   fbq('track', 'InitiateCheckout');
  </script>
 
 
@@ -69,20 +68,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       padding: .35rem .8rem; border-radius: 20px; display: inline-block;
     }
     .upsell-extra { font-size: .88rem; color: #222; font-weight: 800; }
-    .produtos-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .45rem; }
+    .produtos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
     .produto-card {
       text-align: center; cursor: pointer; border: 2px solid transparent;
-      border-radius: 14px; padding: .55rem .25rem; background: #fff;
+      border-radius: 14px; padding: .6rem .3rem; background: #fff;
       box-shadow: 0 1px 4px rgba(0,0,0,.04); transition: all .15s;
-      min-height: 118px; overflow: hidden; display: flex; flex-direction: column;
-      align-items: center; justify-content: flex-start;
     }
     .produto-card.selecionado { border-color: #00a86b; background: #f0faf5; }
-    .produto-emoji { display: flex; align-items: center; justify-content: center; height: 28px; margin-bottom: .25rem; line-height: 1; }
-    .produto-emoji img { width: 24px !important; height: 24px !important; object-fit: contain; }
-    .produto-nome  { font-size: .48rem; font-weight: 800; color: #222; text-transform: uppercase; margin-bottom: .12rem; line-height: 1.1; text-align: center; overflow-wrap: anywhere; }
-    .produto-descricao { font-size: .43rem; color: #222; line-height: 1.12; font-weight: 400; margin-bottom: .18rem; text-align: center; overflow-wrap: anywhere; max-width: 100%; }
-    .produto-preco { font-size: .58rem; color: #00a86b; font-weight: 800; text-align: center; margin-top: auto; }
+    .produto-emoji { font-size: 2.2rem; display: block; margin-bottom: .3rem; line-height: 1; }
+    .produto-nome  { font-size: .62rem; font-weight: 800; color: #222; text-transform: uppercase; margin-bottom: .25rem; line-height: 1.25; }
+    .produto-preco { font-size: .75rem; color: #00a86b; font-weight: 800; }
     .total-area {
       background: #e0e0e0;
       border-radius: 20px;
@@ -149,23 +144,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .check-grande { font-size: 4.5rem; margin-bottom: 1rem; }
     #tela-obrigado h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: .5rem; }
     #tela-obrigado p  { color: #888; font-size: .9rem; }
-  
-/* Correção: valores dos botões sempre pretos no celular */
-.btn-valor,
-.btn-valor:visited,
-.btn-valor:focus,
-.btn-valor:active,
-.btn-valor.ativo {
-  color: #000 !important;
-  -webkit-text-fill-color: #000 !important;
-}
-
-.btn-valor {
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-</style>
+  </style>
 </head>
 <body>
 <div class="page">
@@ -192,29 +171,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <div class="total-valor-box">
         <input type="text" class="total-input" id="total-input" value="20,00">
       </div>
-      <button class="btn-comprar" id="btn-comprar" type="button" onclick="abrirModalBonus()">CONTRIBUIR</button>
+      <button class="btn-comprar" id="btn-comprar">CONTRIBUIR</button>
     </div>
   </div>
-<script>
-  // Bloco independente: garante que o botao CONTRIBUIR sempre abra o modal,
-  // mesmo que algum outro script da pagina falhe.
-  function abrirModalBonus() {
-    var ov = document.getElementById('overlay-bonus');
-    if (ov) ov.classList.add('ativo');
-  }
-  function fecharModalBonus() {
-    var ov = document.getElementById('overlay-bonus');
-    if (ov) ov.classList.remove('ativo');
-  }
-  window.addEventListener('error', function (e) {
-    var box = document.getElementById('js-erro');
-    if (box) {
-      box.style.display = 'block';
-      box.textContent = 'JS: ' + (e.message || 'erro') + ' (' + (e.filename || '') + ':' + (e.lineno || 0) + ')';
-    }
-  });
-</script>
-<div id="js-erro" style="display:none;background:#ffe6e6;color:#a00;font:12px/1.4 monospace;padding:8px;margin:8px;border-radius:6px;white-space:pre-wrap"></div>
   <div class="overlay" id="overlay-bonus">
     <div class="modal">
       <h2>Identificação 💚</h2>
@@ -231,8 +190,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <input type="email" class="campo-modal" id="campo-email" placeholder="E-mail">
         <input type="text"  class="campo-modal" id="campo-cpf"   placeholder="CPF">
       </div>
-      <button class="btn-modal-pix" id="btn-gerar-pix" type="button">Gerar PIX agora</button>
-      <button class="btn-cancelar"  id="btn-cancelar" type="button" onclick="fecharModalBonus()">Cancelar</button>
+      <button class="btn-modal-pix" id="btn-gerar-pix">Gerar PIX agora</button>
+      <button class="btn-cancelar"  id="btn-cancelar">Cancelar</button>
     </div>
   </div>
   <div id="tela-qrcode">
@@ -243,7 +202,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <div class="codigo-pix" id="codigo-pix">—</div>
     <button class="btn-copiar"    id="btn-copiar">Copiar código</button>
     <button class="btn-verificar" id="btn-verificar">Verificar pagamento</button>
-      <div id="status-verificacao" style="margin-top:10px;font-size:13px;color:#777;text-align:center;word-break:break-word"></div>
   </div>
   <div id="tela-obrigado">
     <span class="check-grande">✅</span>
@@ -253,7 +211,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 </div>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script>
-  // Le respostas JSON e transforma erros PHP em mensagens compreensiveis.
+  // Lê respostas JSON e transforma erros PHP em mensagens compreensíveis.
   async function lerJsonSeguro(resposta) {
     const texto = await resposta.text();
 
@@ -266,26 +224,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         .trim();
 
       throw new Error(
-        'O servidor n\u00e3o retornou JSON (HTTP ' + resposta.status + '). ' +
+        'O servidor não retornou JSON (HTTP ' + resposta.status + '). ' +
         (mensagem || 'Verifique os Logs da Vercel.')
       );
     }
   }
 
-  const API_GERAR_PIX = '/api/gerar_pix.php';
-  const API_VERIFICAR_PAGAMENTO = '/api/verificar_pagamento.php';
-
   const PLANOS = [30, 50, 70, 100, 150, 200, 500];
-  const PRODUTOS = [
-    { id: 'p1', nome: '5 n\u00fameros da sorte', descricao: 'Voc\u00ea e quem criou a vaquinha concorrem ao sorteio de R$ 15.000,00 do Vakinha Premiada', emoji: '<img src="./images/imgi_1_lucky_2_.png"  style="width:1em;height:1em;">', preco: 10.00, precoLabel: 'Gr\u00e1tis' },
-    { id: 'p2', nome: '5 cora\u00e7\u00f5es', descricao: 'Destacam essa vaquinha na plataforma', emoji: '<img src="./images/imgi_2_2x_SVG_CORA\u00c7\u00c3O_2_.png" style="width:1em;height:1em;">', preco: 4.99 },
-    { id: 'p3', nome: 'Mulheres Transformam 2026', descricao: 'Voc\u00ea ajuda mulheres que precisam de uma chance para recome\u00e7ar.', emoji: '<img src="./images/imgi_5_Mulheres_Transformam_2026.png" style="width:1em;height:1em;">', preco: 2.00 },
+ const PRODUTOS = [
+    { id: 'p1', nome: '5 Números da ssorte',     emoji: '<img src="./images/imgi_1_lucky_2_.png"  style="width:1em;height:1em;">', preco: 10.00 },
+    { id: 'p2', nome: '5 Corações', emoji: '<img src="./images/imgi_2_2x_SVG_CORAÇÃO_2_.png" style="width:1em;height:1em;">', preco: 4.99 },
+    { id: 'p3', nome: 'MEDICAMENTOS',     emoji: '<img src="./images/4adfc1544ffa389f.jpg" style="width:1em;height:1em;">', preco: 2.00 },
   ];
   let valorBase   = 20;
   let extraUpsell = 0;
   let txidAtual   = null;
   const gridValores = document.getElementById('grid-valores');
-  try {
   PLANOS.forEach((v, i) => {
     const btn = document.createElement('button');
     btn.className    = 'btn-valor' + (i === PLANOS.length - 1 ? ' full' : '');
@@ -298,17 +252,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     });
     gridValores.appendChild(btn);
   });
-  } catch (e) { console.error('valores', e); }
-
-  // Deixa o primeiro valor selecionado e evita a tela ficar sem botoes ativos.
-  const primeiroBotaoValor = document.querySelector('.btn-valor');
-  if (primeiroBotaoValor) {
-    primeiroBotaoValor.classList.add('ativo');
-    valorBase = PLANOS[0];
-    atualizarTotal();
-  }
   const produtosGrid = document.getElementById('produtos-grid');
-  try {
   PRODUTOS.forEach(p => {
     const card = document.createElement('div');
     card.className     = 'produto-card';
@@ -316,8 +260,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     card.innerHTML     = `
       <span class="produto-emoji">${p.emoji}</span>
       <div class="produto-nome">${p.nome}</div>
-      <div class="produto-descricao">${p.descricao || ''}</div>
-      <div class="produto-preco">${p.precoLabel || ('R$ ' + p.preco.toFixed(2).replace('.', ','))}</div>
+      <div class="produto-preco">R$ ${p.preco.toFixed(2).replace('.', ',')}</div>
     `;
     card.addEventListener('click', () => {
       if (!document.getElementById('check-upsell').checked)
@@ -327,7 +270,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     });
     produtosGrid.appendChild(card);
   });
-  } catch (e) { console.error('produtos', e); }
   document.getElementById('check-upsell').addEventListener('change', e => {
     if (!e.target.checked) {
       document.querySelectorAll('.produto-card.selecionado').forEach(c => c.classList.remove('selecionado'));
@@ -368,11 +310,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     btn.innerHTML = '<span class="spinner"></span> Gerando...';
     const total = valorBase + extraUpsell;
     try {
-      if (window.location.protocol === 'file:') {
-        throw new Error('Abra pelo site/servidor, n\u00e3o direto pelo arquivo. Use http://localhost ou Vercel.');
-      }
-
-      const r = await fetch(API_GERAR_PIX, {
+      const r = await fetch('/api/gerar_pix.php', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -387,7 +325,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       if (!r.ok || data.erro) throw new Error(data.erro || 'Erro ' + r.status);
       txidAtual = data.txid;
       const codigo = data.pixCopiaECola || data._raw?.pixCopiaECola || '';
-      document.getElementById('codigo-pix').textContent = codigo || '\u2014';
+      document.getElementById('codigo-pix').textContent = codigo || '—';
       document.getElementById('qrcode-img').innerHTML   = '';
       if (codigo)
         new QRCode(document.getElementById('qrcode-img'), { text: codigo, width: 220, height: 220 });
@@ -406,28 +344,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     const texto = document.getElementById('codigo-pix').textContent;
     navigator.clipboard.writeText(texto).then(() => {
       const b = document.getElementById('btn-copiar');
-      b.textContent = '\u2713 Copiado!';
-      setTimeout(() => { b.textContent = 'Copiar c\u00f3digo'; }, 2000);
+      b.textContent = '✓ Copiado!';
+      setTimeout(() => { b.textContent = 'Copiar código'; }, 2000);
     });
   });
   let pollInterval  = null;
   let pagamentoOk   = false;
 
-  // Consulta o status do pagamento. Retorna true se ja foi confirmado como pago.
-  function mostrarStatusVerificacao(texto, erro) {
-    const el = document.getElementById('status-verificacao');
-    if (!el) return;
-    el.textContent = texto;
-    el.style.color = erro ? '#c0392b' : '#777';
-  }
-
+  // Consulta o status do pagamento. Retorna true se já foi confirmado como pago.
   async function consultarStatusPagamento() {
     if (!txidAtual || pagamentoOk) return pagamentoOk;
-    const r    = await fetch(API_VERIFICAR_PAGAMENTO + '?txid=' + encodeURIComponent(txidAtual) + '&_=' + Date.now(), { cache: 'no-store' });
+    const r    = await fetch('/api/verificar_pagamento.php?txid=' + encodeURIComponent(txidAtual));
     const data = await lerJsonSeguro(r);
-    if (data.erro) {
-      throw new Error(data.erro + (data.arquivo ? ' [' + data.arquivo + ']' : ''));
-    }
     if (data.status === 'paid') {
       pagamentoOk = true;
       if (pollInterval) { clearInterval(pollInterval); pollInterval = null; }
@@ -440,31 +368,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 
   // Verifica automaticamente a cada poucos segundos, sem precisar que o lead
-  // clique em nada - cobre o caso comum de quem paga pelo app do banco e nao
+  // clique em nada — cobre o caso comum de quem paga pelo app do banco e não
   // volta pra clicar em "Verificar pagamento".
   function iniciarVerificacaoAutomatica() {
     if (pollInterval) clearInterval(pollInterval);
-
-    let falhas = 0;
-    let ciclos = 0;
-
-    const tentar = async () => {
-      ciclos++;
-      try {
-        const ok = await consultarStatusPagamento();
-        falhas = 0;
-        if (!ok) {
-          mostrarStatusVerificacao('Aguardando pagamento... verificacao automatica ativa (' + ciclos + ').', false);
-        }
-      } catch (e) {
-        falhas++;
-        mostrarStatusVerificacao('Falha ao verificar (' + falhas + '): ' + (e && e.message ? e.message : e), true);
-        console.error('[verificar]', e);
-      }
-    };
-
-    tentar();
-    pollInterval = setInterval(tentar, 5000);
+    pollInterval = setInterval(consultarStatusPagamento, 5000);
   }
 
   document.getElementById('btn-verificar').addEventListener('click', async () => {
@@ -475,12 +383,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     try {
       const ok = await consultarStatusPagamento();
       if (!ok) {
-        alert('Pagamento ainda n\u00e3o confirmado. Aguarde alguns segundos e tente de novo.');
+        alert('Pagamento ainda não confirmado. Aguarde alguns segundos e tente de novo.');
       }
-    } catch (e) {
-      const msg = (e && e.message) ? e.message : String(e);
-      mostrarStatusVerificacao('Falha ao verificar: ' + msg, true);
-      alert('Erro ao verificar: ' + msg);
+    } catch {
+      alert('Erro ao verificar. Tente novamente.');
     } finally {
       btn.disabled    = false;
       btn.textContent = 'Verificar pagamento';
@@ -494,19 +400,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   function getUTMs() {
     const p    = new URLSearchParams(window.location.search);
-    const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck','fbclid','gclid','ttclid'];
+    const keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','src','sck'];
     const out  = {};
-
     keys.forEach(k => { if (p.get(k)) out[k] = p.get(k); });
-
-    if (Object.keys(out).length) {
-      sessionStorage.setItem('_utms', JSON.stringify(out));
-      localStorage.setItem('_utms', JSON.stringify(out));
-      return out;
-    }
-
-    // Fallback para manter a campanha mesmo se a URL do checkout chegar sem querystring.
-    const saved = sessionStorage.getItem('_utms') || localStorage.getItem('_utms');
+    if (Object.keys(out).length) sessionStorage.setItem('_utms', JSON.stringify(out));
+    const saved = sessionStorage.getItem('_utms');
     return saved ? JSON.parse(saved) : out;
   }
   function getCookie(name) {
