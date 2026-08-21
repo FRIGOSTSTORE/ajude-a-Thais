@@ -155,6 +155,32 @@ class Tracker
             return ($v !== null && $v !== '') ? (string)$v : null;
         };
 
+        $trackingParameters = [
+            'utm_source'   => $utm('utm_source'),
+            'utm_medium'   => $utm('utm_medium'),
+            'utm_campaign' => $utm('utm_campaign'),
+            'utm_content'  => $utm('utm_content'),
+            'utm_term'     => $utm('utm_term'),
+            'src'          => $utm('src'),
+            'sck'          => $utm('sck'),
+        ];
+
+        // Se não recuperamos NENHUM parametro de campanha (ex.: falha ao ler o
+        // registro salvo no Upstash na hora da criação do PIX), não mandamos o
+        // bloco "trackingParameters" nesta atualização. Mandar tudo como null
+        // faz a UTMify sobrescrever/apagar a campanha que já tinha sido
+        // registrada no evento "waiting_payment" - foi essa a causa da venda
+        // aparecer sem campanha na UTMify.
+        $temAlgumUtm = count(array_filter($trackingParameters, fn($v) => $v !== null)) > 0;
+
+        if (!$temAlgumUtm) {
+            error_log(sprintf(
+                '[Tracker/UTMify] ALERTA: nenhum utm_* recuperado para txid=%s status=%s - trackingParameters omitido para nao sobrescrever a campanha ja registrada.',
+                $data['txid'] ?? '-',
+                $status
+            ));
+        }
+
         $body = [
             'orderId'       => $data['txid']      ?? uniqid('pix_'),
             'platform'      => 'custom',
@@ -170,28 +196,23 @@ class Tracker
                 'document' => $data['document'] ?: null,
             ],
             'products' => [[
-                'id'           => $ID_PRODUTO   ?? 'produto-002',
-                'name'         => $NOME_PRODUTO ?? ($data['descricao'] ?: '02 Produto Digital'),
+                'id'           => $ID_PRODUTO   ?? 'produto-001',
+                'name'         => $NOME_PRODUTO ?? ($data['descricao'] ?: '01 Produto Digital'),
                 'planId'       => null,
                 'planName'     => null,
                 'quantity'     => 1,
                 'priceInCents' => $centavos,
             ]],
-            'trackingParameters' => [
-                'utm_source'   => $utm('utm_source'),
-                'utm_medium'   => $utm('utm_medium'),
-                'utm_campaign' => $utm('utm_campaign'),
-                'utm_content'  => $utm('utm_content'),
-                'utm_term'     => $utm('utm_term'),
-                'src'          => $utm('src'),
-                'sck'          => $utm('sck'),
-            ],
             'commission' => [
                 'totalPriceInCents'     => $centavos,
                 'gatewayFeeInCents'     => 0,
                 'userCommissionInCents' => $centavos,
             ],
         ];
+
+        if ($temAlgumUtm) {
+            $body['trackingParameters'] = $trackingParameters;
+        }
 
         [$httpCode, $resp, $curlErr] = $this->httpPost(
             'https://api.utmify.com.br/api-credentials/orders',
