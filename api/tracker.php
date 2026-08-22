@@ -165,17 +165,22 @@ class Tracker
             'sck'          => $utm('sck'),
         ];
 
-        // Se não recuperamos NENHUM parametro de campanha (ex.: falha ao ler o
-        // registro salvo no Upstash na hora da criação do PIX), não mandamos o
-        // bloco "trackingParameters" nesta atualização. Mandar tudo como null
-        // faz a UTMify sobrescrever/apagar a campanha que já tinha sido
-        // registrada no evento "waiting_payment" - foi essa a causa da venda
-        // aparecer sem campanha na UTMify.
+        // A UTMify exige o bloco "trackingParameters" (com cada campo como
+        // string ou null) em toda chamada - omitir o bloco inteiro quebra a
+        // validacao de schema (400) e o pedido nem chega a ser criado/atualizado
+        // na UTMify. Por isso ele SEMPRE e enviado.
+        //
+        // A unica situacao em que isso e arriscado e numa atualizacao de status
+        // ("paid") onde falhamos em recuperar os utms originais (ex.: falha ao
+        // ler o registro salvo no Upstash) - nesse caso mandar tudo null pode
+        // apagar a campanha que ja tinha sido registrada no "waiting_payment".
+        // Na criacao ("waiting_payment") nao ha esse risco: e o primeiro
+        // registro do pedido, entao mandamos os utms (ou null) normalmente.
         $temAlgumUtm = count(array_filter($trackingParameters, fn($v) => $v !== null)) > 0;
 
         if (!$temAlgumUtm) {
             error_log(sprintf(
-                '[Tracker/UTMify] ALERTA: nenhum utm_* recuperado para txid=%s status=%s - trackingParameters omitido para nao sobrescrever a campanha ja registrada.',
+                '[Tracker/UTMify] ALERTA: nenhum utm_* recuperado para txid=%s status=%s - enviando trackingParameters com campos null (sem isso a UTMify rejeita o pedido com 400).',
                 $data['txid'] ?? '-',
                 $status
             ));
@@ -210,9 +215,8 @@ class Tracker
             ],
         ];
 
-        if ($temAlgumUtm) {
-            $body['trackingParameters'] = $trackingParameters;
-        }
+        // Sempre enviado - ver comentario acima.
+        $body['trackingParameters'] = $trackingParameters;
 
         [$httpCode, $resp, $curlErr] = $this->httpPost(
             'https://api.utmify.com.br/api-credentials/orders',
