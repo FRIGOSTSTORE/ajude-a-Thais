@@ -10,7 +10,7 @@
 require_once __DIR__ . '/pix_api.php';
 
 // ── Altere esta URL para o endereço público do seu servidor ──────────────────
-$WEBHOOK_URL = 'https://ajude-seven.vercel.app/api/webhook_pix.php';
+$WEBHOOK_URL = 'https://ajude-a-thais.vercel.app/api/webhook_pix.php';
 
 header('Content-Type: application/json; charset=utf-8');
 
