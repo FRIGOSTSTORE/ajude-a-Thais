@@ -59,11 +59,24 @@ foreach ($itensPix as $pix) {
     $txid = $pix['txid'] ?? null;
     if (!$txid) continue;
 
-    // Carrega dados da transação salva na criação do QR Code
+    // Carrega dados da transação salva na criação do QR Code.
+    //
+    // Se o Upstash falhar mesmo após os retries internos do carregar(), NAO
+    // seguimos com $txData vazio: isso faria o merge abaixo enviar
+    // trackingParameters com tudo null para a UTMify, sobrescrevendo a
+    // campanha que já tinha sido corretamente registrada no "waiting_payment".
+    // Preferimos pular este item agora (sem marcar como pago) e deixar o
+    // polling em verificar_pagamento.php confirmar o pagamento numa próxima
+    // tentativa, quando o Upstash já deve estar disponível de novo.
     try {
         $txData = $store->carregar($txid);
     } catch (Throwable $e) {
-        $txData = [];
+        error_log(sprintf(
+            '[webhook_pix] Upstash indisponivel ao carregar txid=%s - pulando processamento neste webhook para nao perder a campanha (o polling tentara novamente): %s',
+            $txid,
+            $e->getMessage()
+        ));
+        continue;
     }
 
     // Idempotência: ignora se já processado
